@@ -186,29 +186,7 @@ The Play Store version of Termux is **outdated and abandoned**. It will not rece
 
 ---
 
-## 📋 Table of Contents
-
-1. [Quick Start](#quick-start-tldr)
-2. [Initial Setup](#1-initial-setup)
-3. [Core Package Installation](#2-core-package-installation)
-4. [Python Tools & Media Utilities](#3-python-tools--media-utilities)
-5. [Optional Packages](#4-optional-packages)
-6. [Network Tools](#5-network-tools)
-7. [Termux:API Usage](#6-termuxapi-usage)
-8. [File Management](#7-file-management)
-9. [Performance Optimization](#8-performance-optimization)
-10. [Common Use Cases](#9-common-use-cases)
-11. [Package Managers Explained](#10-package-managers-explained)
-12. [Termux:Boot Setup](#11-termuxboot-setup)
-13. [VNC Server Setup](#12-vnc-server-setup)
-14. [Security Best Practices](#13-security-best-practices)
-15. [AVcleaner Tool](#14-avcleaner-tool)
-16. [Backup & Restore](#15-backup--restore)
-17. [Proot-Distro Ubuntu](#16-proot-distro-ubuntu)
-18. [Security Tools](#17-security-tools-use-responsibly)
-19. [Cleanup & Maintenance](#18-cleanup--maintenance)
-20. [Removal Commands](#19-removal-commands-dangerous)
-
+## Quick Start (TL;DR)
 ---
 
 ## Quick Start (TL;DR)
