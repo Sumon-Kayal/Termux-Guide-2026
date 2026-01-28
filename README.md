@@ -20,7 +20,9 @@
 
 **READ BEFORE PROCEEDING:**
 
-- **NEVER** run `rm -rf $PREFIX` or `rm -rf ./home ./usr` unless you want to completely destroy your Termux installation
+**READ BEFORE PROCEEDING:**
+
+- **NEVER** run `rm -rf $PREFIX` or `rm -rf /data/data/com.termux/files/home /data/data/com.termux/files/usr` unless you want to completely destroy your Termux installation (see [Removal Commands](`#19-removal-commands-dangerous`) for context)
 - **ALWAYS** have backups before running removal/cleanup commands
 - Test commands individually before combining them into scripts
 - The `exit` commands after every operation will close Termux - remove them if you want to continue working
