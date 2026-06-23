@@ -1851,50 +1851,7 @@ clean  # if you created the symlink
 
 ## 16. Security Tools (USE RESPONSIBLY)
 
-<details>Zphisher - Phishing Demonstration Tool
-
-**⚠️ MAXIMUM RISK TOOL - PHISHING IS A FEDERAL CRIME**
-
-**Only proceed if:**
-- You have written authorization from your employer/client
-- You are conducting red-team exercises in a controlled environment
-- You understand the full legal implications
-
-**Installation (Educational/Authorized Use Only):**
-
-```bash
-# Install dependencies
-pkg install git curl php openssh -y
-
-# Clone repository
-git clone https://github.com/htr-tech/zphisher
-cd zphisher
-
-# Run tool (ONLY in authorized environment)
-bash zphisher.sh
-```
-
-**Remove Immediately After Use:**
-```bash
-cd ~
-rm -rf zphisher
-```
-
-**Alternative Package Method (if available):**
-```bash
-pkg install zphisher  # May not be in standard repos
-zphisher
-pkg remove zphisher
-```
-
-**Safer Alternatives for Learning:**
-- Use dedicated cybersecurity training platforms (TryHackMe, HackTheBox)
-- Enroll in authorized security certification courses (CEH, OSCP)
-- Practice in isolated virtual lab environments only
-- Never test on production systems or real users
-
----
-
+<details>
 <summary><strong>⚠️ CLICK TO EXPAND - AUTHORIZED SECURITY TESTING ONLY ⚠️</strong></summary>
 
 ### 🚨 CRITICAL LEGAL AND ETHICAL WARNINGS 🚨
