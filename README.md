@@ -6,7 +6,7 @@
 
 [![Termux](https://img.shields.io/badge/Termux-0.118.3%20stable%20%2F%200.119.0--beta.3-000000?style=for-the-badge&logo=android&logoColor=white)](https://termux.dev)
 [![Android](https://img.shields.io/badge/Android-7.0+-3DDC84?style=for-the-badge&logo=android&logoColor=white)](https://www.android.com)
-[![License](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
+[![License](https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg?style=for-the-badge)](LICENSE.md)
 [![Last Updated](https://img.shields.io/badge/Updated-January_2026-green?style=for-the-badge)](.)
 
 **📥 Download:** [F-Droid](https://f-droid.org/packages/com.termux/) | [GitHub Releases](https://github.com/termux/termux-app/releases)  
@@ -16,17 +16,19 @@
 
 ---
 
+
 ## ⚠️ CRITICAL SAFETY WARNINGS
 
 **READ BEFORE PROCEEDING:**
 
-- **NEVER** run `rm -rf $PREFIX` or `rm -rf /data/data/com.termux/files/home /data/data/com.termux/files/usr` unless you want to completely destroy your Termux installation (see [Removal Commands](`#19-removal-commands-dangerous`) for context)
+- **NEVER** run `rm -rf $PREFIX` or `rm -rf /data/data/com.termux/files/home /data/data/com.termux/files/usr` unless you want to completely destroy your Termux installation (see [Removal Commands](#19-removal-commands-dangerous) for context)
 - **ALWAYS** have backups before running removal/cleanup commands
 - Test commands individually before combining them into scripts
 - The `exit` commands after every operation will close Termux - remove them if you want to continue working
 - **Security tools** are for authorized testing ONLY - illegal use carries serious legal consequences
 
 ---
+
 
 ## 📌 Version & Compatibility Notice (January 2026)
 
@@ -53,7 +55,7 @@
 **GUI/Desktop Changes:**
 - **Modern approach (2026):** Termux:X11 + proot-distro (better performance than VNC)
 - **Traditional approach:** TigerVNC + XFCE (still works, but slower)
-- See both methods in [VNC Server Setup](#12-vnc-server-setup) and [Advanced Setup](#advanced-setup)
+- See both methods in [VNC Server Setup](#12-vnc-server-setup) and [Proot-Distro Ubuntu](#13-proot-distro-ubuntu)
 
 **Root/Swap File Limitation:**
 - Swap file creation requires root access (`swapon` command)
@@ -72,74 +74,82 @@
 
 ---
 
-## 📋 Table of Contents
+
+## Table of Contents
 
 ### 🚀 Getting Started
-- [Quick Start (TL;DR)](#quick-start-tldr)
 - [What is Termux?](#what-is-termux)
 - [Download & Installation](#download--installation)
-- [Initial Setup](#1-initial-setup)
+- [Quick Start (TL;DR)](#quick-start-tldr)
+- [1. Initial Setup](#1-initial-setup)
 
 ### 📦 Package Installation & Management
-- [Core Package Installation](#2-core-package-installation)
-- [Python Tools & Media Utilities](#3-python-tools--media-utilities)
-- [Optional Packages](#4-optional-packages)
-- [Package Managers Explained](#10-package-managers-explained)
+- [2. Core Package Installation](#2-core-package-installation)
+- [3. Python Tools & Media Utilities](#3-python-tools--media-utilities)
+- [4. Optional Packages](#4-optional-packages)
+- [10. Package Managers Explained](#10-package-managers-explained)
+  - [pkg vs apt](#pkg-vs-apt)
+  - [pip](#pip-python-package-manager) · [npm](#npm-nodejs-package-manager)
 
 ### 🛠️ Tools & Utilities
-- [Network Tools](#5-network-tools)
-- [Termux:API Usage](#6-termuxapi-usage)
-- [File Management](#7-file-management)
-- [AVcleaner Tool](#14-avcleaner-tool)
+- [5. Network Tools](#5-network-tools)
+- [6. Termux:API Usage](#6-termuxapi-usage)
+- [7. File Management](#7-file-management)
 
 ### ⚡ Performance & Optimization
-- [Performance Optimization](#8-performance-optimization)
-- [Cleanup & Maintenance](#18-cleanup--maintenance)
+- [8. Performance Optimization](#8-performance-optimization)
+  - [Swap Files](#create-swap-file-for-low-ram-devices) · [Wake Lock](#keep-termux-running-in-the-background-wake-lock)
 
 ### 💻 Development & Use Cases
-- [Common Use Cases](#9-common-use-cases)
-  - Web Development
-  - Python Environment
-  - Git Workflow
-  - SSH Server Setup
-  - Database Setup
-  - Code Compilation
+- [9. Common Use Cases](#9-common-use-cases)
+  - [Web Development](#web-development)
+  - [Python Environment](#python-development-environment)
+  - [Git Workflow](#git-workflow)
+  - [SSH Server Setup](#ssh-server-setup)
+  - [Code Compilation](#code-compilation)
+  - [Database Setup](#database-setup)
 
-### 🖥️ Advanced Setup
-- [Termux:Boot Setup](#11-termuxboot-setup)
-- [VNC Server Setup](#12-vnc-server-setup)
-- [Proot-Distro Ubuntu](#16-proot-distro-ubuntu)
-  - Desktop Environment
-  - QEMU Support
+### 🖥️ Environment & GUI Setup
+- [11. Termux:Boot Setup](#11-termuxboot-setup)
+- [12. VNC Server Setup](#12-vnc-server-setup)
+- [13. Proot-Distro Ubuntu](#13-proot-distro-ubuntu)
+  - [Desktop Environment](#desktop-environment-optional) · [QEMU Support](#qemu-support-optional)
 
 ### 🔒 Security
-- [Security Best Practices](#13-security-best-practices)
-  - SSH Keys
-  - File Encryption
-  - Password Management
-- [Security Tools](#17-security-tools-use-responsibly)
+- [14. Security Best Practices](#14-security-best-practices)
+  - [SSH Keys](#ssh-key-setup) · [File Encryption](#file-encryption) · [Password Management](#password-management) · [Shell History Hygiene](#shell-history-hygiene)
+- [15. AVcleaner Tool](#15-avcleaner-tool)
+- [16. Security Tools (USE RESPONSIBLY)](#16-security-tools-use-responsibly)
 
-### 💾 Backup & Recovery
-- [Backup & Restore](#15-backup--restore)
-- [Removal Commands](#19-removal-commands-dangerous)
+### 💾 Backup, Cleanup & Removal
+- [17. Backup & Restore](#17-backup--restore)
+- [18. Cleanup & Maintenance](#18-cleanup--maintenance)
+- [19. Removal Commands (DANGEROUS)](#19-removal-commands-dangerous)
 
-### 📚 Resources & References
-- [Official Resources](#official-resources)
-- [GitHub Repositories](#github-repositories--collections)
-  - [Awesome Lists](#awesome-lists--curated-collections)
-  - [Tool Installers](#tool-installers--package-managers)
+### 📚 Resources & Reference
+- [Resources](#resources)
+  - [Official Documentation & Repositories](#official-documentation--repositories)
+  - [Download Termux & Add-ons](#download-termux--add-ons)
+  - [Awesome Lists & Curated Collections](#awesome-lists--curated-collections)
+  - [Tool Installers](#tool-installers)
   - [Popular Tools by Category](#popular-tools-by-category)
-  - [Linux Distributions](#linux-distributions-in-termux)
-- [Community & Support](#community--support)
-- [Related Apps](#related-termux-apps)
-- [Learning Resources](#learning-resources)
-- [Quick Links Reference](#-quick-links-reference)
+  - [Linux Distributions in Termux](#linux-distributions-in-termux)
+  - [GitHub Topic Collections](#github-topic-collections)
+  - [Learning Resources](#learning-resources)
+  - [Community & Support](#community--support)
+  - [Contributing Back](#contributing-back)
 
 ### 🛟 Help & Troubleshooting
-- [Troubleshooting](#-troubleshooting)
-- [FAQ](#frequently-asked-questions-faq)
+- [Troubleshooting](#troubleshooting)
+- [Frequently Asked Questions (FAQ)](#frequently-asked-questions-faq)
+
+### 📋 About This Guide
+- [Notes](#-notes)
+- [Credits & Contributing](#-credits--contributing)
+- [License](#-license)
 
 ---
+
 
 ## What is Termux?
 
@@ -159,6 +169,7 @@
 - ✅ Run Linux distributions (Ubuntu, Debian, Arch)
 
 ---
+
 
 ## Download & Installation
 
@@ -186,8 +197,6 @@ The Play Store version of Termux is **outdated and abandoned**. It will not rece
 
 ---
 
-## Quick Start (TL;DR)
----
 
 ## Quick Start (TL;DR)
 
@@ -213,6 +222,7 @@ termux-setup-storage && pkg update && pkg upgrade -y && pkg install -y python gi
 ```
 
 ---
+
 
 ## 1. Initial Setup
 
@@ -256,6 +266,7 @@ apt clean && pkg clean && pkg autoclean
 **Note:** Remove the `&& exit` from the original if you want to continue without closing Termux.
 
 ---
+
 
 ## 2. Core Package Installation
 
@@ -325,6 +336,7 @@ apt clean && pkg clean && pkg autoclean && apt autoremove -y
 
 ---
 
+
 ## 3. Python Tools & Media Utilities
 
 ### yt-dlp Installation
@@ -363,6 +375,7 @@ ffmpeg -i input.webm -vn -ar 44100 -ac 2 -b:a 192k output.mp3
 
 ---
 
+
 ## 4. Optional Packages
 
 These packages provide advanced functionality but aren't required for basic use:
@@ -386,7 +399,33 @@ apt clean && pkg clean && pkg autoclean && apt autoremove -y
 - **Web:** apache2 (web server)
 - **Search:** silversearcher-ag (fast code search)
 
+### Self-Hosting & Networking Stack
+
+For running git servers, tunnels, and reverse proxies directly on-device:
+
+```bash
+pkg install -y \
+  tor which mandoc deno \
+  cloudflared nginx caddy \
+  tmux dnsutils golang openssl-tool \
+  gitea forgejo
+```
+
+**What each one is for:**
+- **tor** — Tor client; needed for hidden-service-based self-hosting without a public IP
+- **which** — locates binaries in `$PATH` (small POSIX utility, often assumed present but isn't by default)
+- **mandoc** — man page compiler/viewer; Termux doesn't ship man pages by default, this adds support
+- **deno** — secure-by-default JS/TS runtime, alternative to Node.js for scripts and linting
+- **cloudflared** — Cloudflare Tunnel client; exposes a local server through a stable URL without port-forwarding
+- **nginx / caddy** — reverse proxies / static web servers (Caddy auto-handles TLS; nginx is the lighter-weight classic choice)
+- **tmux** — terminal multiplexer; keeps sessions alive across disconnects, panes/windows in one Termux session
+- **dnsutils** — `dig`, `nslookup`, and friends for DNS debugging
+- **golang** — Go toolchain
+- **openssl-tool** — CLI for certs, hashing, and encryption (separate from the `openssl` library package)
+- **gitea / forgejo** — lightweight self-hosted Git servers (Forgejo is the community-driven Gitea fork)
+
 ---
+
 
 ## 5. Network Tools
 
@@ -476,6 +515,7 @@ curl -o myfile.zip https://example.com/file.zip
 ```
 
 ---
+
 
 ## 6. Termux:API Usage
 
@@ -658,6 +698,7 @@ termux-wifi-scaninfo
 
 ---
 
+
 ## 7. File Management
 
 ### Accessing Android Storage
@@ -747,6 +788,7 @@ ls -lht
 
 ---
 
+
 ## 8. Performance Optimization
 
 ### Create Swap File (for low RAM devices)
@@ -829,6 +871,20 @@ ps aux --sort=-%mem | head -10
 **For Termux:API, Termux:Boot, Termux:Widget:**
 Repeat the same process for each app.
 
+### Keep Termux Running in the Background (Wake Lock)
+
+Even with battery optimization disabled, Android can still suspend Termux's CPU access once the screen is off or the app is backgrounded. `termux-wake-lock` (from the `termux-api` package) requests a partial wake lock so long-running jobs (servers, syncs, backups, `sshd`) keep executing:
+
+```bash
+# Acquire wake lock - keep CPU active while Termux is backgrounded
+termux-wake-lock
+
+# Release wake lock when done
+termux-wake-unlock
+```
+
+This is why boot scripts and background services elsewhere in this guide call `termux-wake-lock` before starting a server.
+
 ### Memory Management
 
 ```bash
@@ -858,6 +914,7 @@ echo "Acquire::Queue-Mode \"access\";" >> $PREFIX/etc/apt/apt.conf.d/99custom
 ```
 
 ---
+
 
 ## 9. Common Use Cases
 
@@ -1082,6 +1139,7 @@ psql mydb
 
 ---
 
+
 ## 10. Package Managers Explained
 
 ### pkg vs apt
@@ -1176,6 +1234,7 @@ npm outdated
 
 ---
 
+
 ## 11. Termux:Boot Setup
 
 Run scripts automatically when your device boots.
@@ -1234,6 +1293,7 @@ chmod +x ~/.termux/boot/backup
 ```
 
 ---
+
 
 ## 12. VNC Server Setup
 
@@ -1411,7 +1471,84 @@ vncserver -localhost -geometry 1280x720
 
 ---
 
-## 13. Security Best Practices
+
+## 13. Proot-Distro Ubuntu
+
+Run a full Ubuntu environment inside Termux (no root required).
+
+### Install Ubuntu
+```bash
+proot-distro install ubuntu
+```
+
+**Installation location:**
+```
+/data/data/com.termux/files/usr/var/lib/proot-distro/installed-rootfs/ubuntu/
+```
+
+### Login to Ubuntu
+```bash
+proot-distro login ubuntu
+```
+
+### Ubuntu Initial Setup
+```bash
+# Update Ubuntu packages
+apt-get update -y && apt-get dist-upgrade -y
+
+# Add universe repository
+apt-get install software-properties-common -y
+add-apt-repository universe
+apt update && apt upgrade -y
+
+# Install essential packages
+apt-get install -y \
+  apt-utils cmake make libreadline-dev sudo 7zip \
+  mpv apt parted bash ca-certificates command-not-found \
+  coreutils curl debianutils dpkg gpgv less nano \
+  patch zstd sox vlc git iproute2 bash-completion \
+  wget perl neofetch pkg-config python3 synaptic
+
+# Cleanup
+apt upgrade -y
+apt clean && apt autoremove -y
+```
+
+### Desktop Environment (Optional)
+
+**⚠️ WARNING:** Desktop environments are VERY resource-intensive on mobile devices. Consider XFCE instead of Cinnamon.
+
+```bash
+# Install Cinnamon (Heavy - 2GB+ RAM recommended)
+sudo apt install cinnamon-desktop-environment -y
+
+# Install multimedia codecs
+sudo apt install libavcodec-extra ubuntu-restricted-extras -y
+
+# Alternative: XFCE (Lighter)
+# sudo apt install xfce4 xfce4-goodies -y
+```
+
+**Requirements for GUI:**
+- Install Termux:X11 app (from GitHub, not Play Store)
+- Or use VNC server (easier for beginners)
+
+### QEMU Support (Optional)
+```bash
+apt-get install qemu-system-aarch64 -y
+pkg install qemu-utils -y
+```
+
+### Exit Ubuntu
+```bash
+cat /dev/null > ~/.bash_history && history -c
+exit
+```
+
+---
+
+
+## 14. Security Best Practices
 
 ### SSH Key Setup
 
@@ -1621,9 +1758,42 @@ gpg -d ~/storage/downloads/backup-20260129.tar.gz.gpg | \
   tar -xzf - -C ~/
 ```
 
+### Shell History Hygiene
+
+Clearing history after sensitive commands (passwords, tokens, decryption commands) is good practice:
+
+```bash
+# Clear the history file AND the in-memory history of the current shell
+cat /dev/null > ~/.bash_history && history -c
+```
+
+Both halves matter: `cat /dev/null > ~/.bash_history` empties the file on disk, but bash still holds the session's history in memory and will happily rewrite it to disk on exit — `history -c` clears that in-memory copy too.
+
+**The problem:** even after both commands, bash's normal exit path still re-saves whatever history accumulates *after* you ran them — including the clearing commands themselves.
+
+**hnuke.sh — a script to actually solve this:**
+
+```bash
+cat > hnuke.sh << 'EOF'
+#!/data/data/com.termux/files/usr/bin/bash
+
+# Wipe history file
+cat /dev/null > ~/.bash_history
+
+# Kill parent shell with SIGKILL (uncatchable)
+# SIGKILL bypasses bash's EXIT trap, so history never gets rewritten
+kill -9 $PPID
+EOF
+
+chmod +x hnuke.sh
+```
+
+Run it (`./hnuke.sh`) when you want the session to end with a guaranteed-clean history — `kill -9` terminates the parent shell before it gets a chance to flush its in-memory history back to `~/.bash_history`. Keeping a copy in `~/storage/shared/download/` makes it easy to re-fetch if you ever wipe `$HOME`.
+
 ---
 
-## 14. AVcleaner Tool
+
+## 15. AVcleaner Tool
 
 **⚠️ ADVANCED/NICHE TOOL - Most users don't need this!**
 
@@ -1678,7 +1848,160 @@ clean  # if you created the symlink
 
 ---
 
-## 15. Backup & Restore
+
+## 16. Security Tools (USE RESPONSIBLY)
+
+<details>Zphisher - Phishing Demonstration Tool
+
+**⚠️ MAXIMUM RISK TOOL - PHISHING IS A FEDERAL CRIME**
+
+**Only proceed if:**
+- You have written authorization from your employer/client
+- You are conducting red-team exercises in a controlled environment
+- You understand the full legal implications
+
+**Installation (Educational/Authorized Use Only):**
+
+```bash
+# Install dependencies
+pkg install git curl php openssh -y
+
+# Clone repository
+git clone https://github.com/htr-tech/zphisher
+cd zphisher
+
+# Run tool (ONLY in authorized environment)
+bash zphisher.sh
+```
+
+**Remove Immediately After Use:**
+```bash
+cd ~
+rm -rf zphisher
+```
+
+**Alternative Package Method (if available):**
+```bash
+pkg install zphisher  # May not be in standard repos
+zphisher
+pkg remove zphisher
+```
+
+**Safer Alternatives for Learning:**
+- Use dedicated cybersecurity training platforms (TryHackMe, HackTheBox)
+- Enroll in authorized security certification courses (CEH, OSCP)
+- Practice in isolated virtual lab environments only
+- Never test on production systems or real users
+
+---
+
+<summary><strong>⚠️ CLICK TO EXPAND - AUTHORIZED SECURITY TESTING ONLY ⚠️</strong></summary>
+
+### 🚨 CRITICAL LEGAL AND ETHICAL WARNINGS 🚨
+
+**READ THIS ENTIRE SECTION BEFORE PROCEEDING:**
+
+This section documents security testing tools that are **ONLY** for:
+- ✅ Authorized penetration testing with **written permission**
+- ✅ Educational purposes in **controlled lab environments**
+- ✅ Testing **your own systems** that you own
+- ✅ Certified security professional training
+
+**ILLEGAL USES - DO NOT:**
+- ❌ Test any system without explicit written authorization
+- ❌ Use phishing tools against real people
+- ❌ Conduct unauthorized network scanning
+- ❌ Attempt to access systems you don't own
+- ❌ Distribute or use maliciously in any way
+
+**CONSEQUENCES OF MISUSE:**
+- Criminal charges under Computer Fraud and Abuse Act (CFAA)
+- International cybercrime laws (equivalent in most countries)
+- Civil lawsuits for damages
+- Permanent criminal record
+- Prison sentences (varies by jurisdiction)
+
+**2026 COMMUNITY STANDARDS:**
+Many security communities now discourage publicly listing certain tools (especially phishing frameworks) in beginner guides due to widespread misuse. This section is included for completeness but with extreme warnings.
+
+---
+
+### Phishing-Simulation Frameworks
+
+**⚠️ MAXIMUM RISK CATEGORY - PHISHING AGAINST REAL PEOPLE IS A FEDERAL CRIME**
+
+Phishing-simulation tools (credential-harvesting page generators) exist in the wild and show up on most "Termux tools" lists. This guide intentionally does **not** include install/run instructions for them — deploying one against anyone without a signed, scoped authorization is illegal, and even "just testing" against a real login page crosses that line instantly.
+
+If you have a genuine, written, red-team engagement that calls for this category of tool, your engagement documentation or employer's toolkit is the appropriate source — not a general setup guide.
+
+**Safer alternatives for learning phishing/social-engineering defense:**
+- Use dedicated cybersecurity training platforms (TryHackMe, HackTheBox)
+- Enroll in authorized security certification courses (CEH, OSCP)
+- Practice in isolated virtual lab environments only
+- Never test on production systems or real users
+
+---
+
+### Responsible Security Testing Guidelines
+
+**Before using ANY security tool:**
+
+1. **Get Written Permission**
+   - From system owner
+   - Specifying scope of testing
+   - Defining allowed techniques
+   - With clear time boundaries
+
+2. **Use Proper Environment**
+   - Isolated lab networks
+   - Virtual machines
+   - Test servers you own
+   - Never on public/production systems
+
+3. **Document Everything**
+   - What tools you used
+   - When and where you tested
+   - Findings and recommendations
+   - Maintain audit trail
+
+4. **Report Responsibly**
+   - Follow responsible disclosure practices
+   - Give vendors time to patch vulnerabilities
+   - Don't publish exploits publicly
+   - Work through proper channels
+
+---
+
+### Alternative: Legitimate Security Learning
+
+**Instead of using tools on real systems, consider:**
+
+**Free Learning Platforms:**
+- [TryHackMe](https://tryhackme.com) - Beginner-friendly labs
+- [HackTheBox](https://hackthebox.com) - Advanced challenges
+- [PentesterLab](https://pentesterlab.com) - Web app security
+- [OverTheWire](https://overthewire.org) - CTF challenges
+
+**Certifications:**
+- CompTIA Security+
+- Certified Ethical Hacker (CEH)
+- Offensive Security Certified Professional (OSCP)
+- GIAC Security Essentials (GSEC)
+
+**Bug Bounty Programs (Legal):**
+- [HackerOne](https://hackerone.com)
+- [Bugcrowd](https://bugcrowd.com)
+- [Synack](https://synack.com)
+- Company-specific programs (Google, Facebook, etc.)
+
+These provide **legal** ways to practice security skills with **permission** and potentially earn rewards.
+
+</details>
+
+---
+
+
+## 17. Backup & Restore
 
 ### Create Backup Directory
 ```bash
@@ -1806,216 +2129,6 @@ chmod +x ~/.termux/boot/backup-daily
 
 ---
 
-## 16. Proot-Distro Ubuntu
-
-Run a full Ubuntu environment inside Termux (no root required).
-
-### Install Ubuntu
-```bash
-proot-distro install ubuntu
-```
-
-**Installation location:**
-```
-/data/data/com.termux/files/usr/var/lib/proot-distro/installed-rootfs/ubuntu/
-```
-
-### Login to Ubuntu
-```bash
-proot-distro login ubuntu
-```
-
-### Ubuntu Initial Setup
-```bash
-# Update Ubuntu packages
-apt-get update -y && apt-get dist-upgrade -y
-
-# Add universe repository
-apt-get install software-properties-common -y
-add-apt-repository universe
-apt update && apt upgrade -y
-
-# Install essential packages
-apt-get install -y \
-  apt-utils cmake make libreadline-dev sudo 7zip \
-  mpv apt parted bash ca-certificates command-not-found \
-  coreutils curl debianutils dpkg gpgv less nano \
-  patch zstd sox vlc git iproute2 bash-completion \
-  wget perl neofetch pkg-config python3 synaptic
-
-# Cleanup
-apt upgrade -y
-apt clean && apt autoremove -y
-```
-
-### Desktop Environment (Optional)
-
-**⚠️ WARNING:** Desktop environments are VERY resource-intensive on mobile devices. Consider XFCE instead of Cinnamon.
-
-```bash
-# Install Cinnamon (Heavy - 2GB+ RAM recommended)
-sudo apt install cinnamon-desktop-environment -y
-
-# Install multimedia codecs
-sudo apt install libavcodec-extra ubuntu-restricted-extras -y
-
-# Alternative: XFCE (Lighter)
-# sudo apt install xfce4 xfce4-goodies -y
-```
-
-**Requirements for GUI:**
-- Install Termux:X11 app (from GitHub, not Play Store)
-- Or use VNC server (easier for beginners)
-
-### QEMU Support (Optional)
-```bash
-apt-get install qemu-system-aarch64 -y
-pkg install qemu-utils -y
-```
-
-### Exit Ubuntu
-```bash
-cat /dev/null > ~/.bash_history && history -c
-exit
-```
-
----
-
-## 17. Security Tools (USE RESPONSIBLY)
-
-<details>
-<summary><strong>⚠️ CLICK TO EXPAND - AUTHORIZED SECURITY TESTING ONLY ⚠️</strong></summary>
-
-### 🚨 CRITICAL LEGAL AND ETHICAL WARNINGS 🚨
-
-**READ THIS ENTIRE SECTION BEFORE PROCEEDING:**
-
-This section documents security testing tools that are **ONLY** for:
-- ✅ Authorized penetration testing with **written permission**
-- ✅ Educational purposes in **controlled lab environments**
-- ✅ Testing **your own systems** that you own
-- ✅ Certified security professional training
-
-**ILLEGAL USES - DO NOT:**
-- ❌ Test any system without explicit written authorization
-- ❌ Use phishing tools against real people
-- ❌ Conduct unauthorized network scanning
-- ❌ Attempt to access systems you don't own
-- ❌ Distribute or use maliciously in any way
-
-**CONSEQUENCES OF MISUSE:**
-- Criminal charges under Computer Fraud and Abuse Act (CFAA)
-- International cybercrime laws (equivalent in most countries)
-- Civil lawsuits for damages
-- Permanent criminal record
-- Prison sentences (varies by jurisdiction)
-
-**2026 COMMUNITY STANDARDS:**
-Many security communities now discourage publicly listing certain tools (especially phishing frameworks) in beginner guides due to widespread misuse. This section is included for completeness but with extreme warnings.
-
----
-
-### Zphisher - Phishing Demonstration Tool
-
-**⚠️ MAXIMUM RISK TOOL - PHISHING IS A FEDERAL CRIME**
-
-**Only proceed if:**
-- You have written authorization from your employer/client
-- You are conducting red-team exercises in a controlled environment
-- You understand the full legal implications
-
-**Installation (Educational/Authorized Use Only):**
-
-```bash
-# Install dependencies
-pkg install git curl php openssh -y
-
-# Clone repository
-git clone https://github.com/htr-tech/zphisher
-cd zphisher
-
-# Run tool (ONLY in authorized environment)
-bash zphisher.sh
-```
-
-**Remove Immediately After Use:**
-```bash
-cd ~
-rm -rf zphisher
-```
-
-**Alternative Package Method (if available):**
-```bash
-pkg install zphisher  # May not be in standard repos
-zphisher
-pkg remove zphisher
-```
-
-**Safer Alternatives for Learning:**
-- Use dedicated cybersecurity training platforms (TryHackMe, HackTheBox)
-- Enroll in authorized security certification courses (CEH, OSCP)
-- Practice in isolated virtual lab environments only
-- Never test on production systems or real users
-
----
-
-### Responsible Security Testing Guidelines
-
-**Before using ANY security tool:**
-
-1. **Get Written Permission**
-   - From system owner
-   - Specifying scope of testing
-   - Defining allowed techniques
-   - With clear time boundaries
-
-2. **Use Proper Environment**
-   - Isolated lab networks
-   - Virtual machines
-   - Test servers you own
-   - Never on public/production systems
-
-3. **Document Everything**
-   - What tools you used
-   - When and where you tested
-   - Findings and recommendations
-   - Maintain audit trail
-
-4. **Report Responsibly**
-   - Follow responsible disclosure practices
-   - Give vendors time to patch vulnerabilities
-   - Don't publish exploits publicly
-   - Work through proper channels
-
----
-
-### Alternative: Legitimate Security Learning
-
-**Instead of using tools on real systems, consider:**
-
-**Free Learning Platforms:**
-- [TryHackMe](https://tryhackme.com) - Beginner-friendly labs
-- [HackTheBox](https://hackthebox.com) - Advanced challenges
-- [PentesterLab](https://pentesterlab.com) - Web app security
-- [OverTheWire](https://overthewire.org) - CTF challenges
-
-**Certifications:**
-- CompTIA Security+
-- Certified Ethical Hacker (CEH)
-- Offensive Security Certified Professional (OSCP)
-- GIAC Security Essentials (GSEC)
-
-**Bug Bounty Programs (Legal):**
-- [HackerOne](https://hackerone.com)
-- [Bugcrowd](https://bugcrowd.com)
-- [Synack](https://synack.com)
-- Company-specific programs (Google, Facebook, etc.)
-
-These provide **legal** ways to practice security skills with **permission** and potentially earn rewards.
-
-</details>
-
----
 
 ## 18. Cleanup & Maintenance
 
@@ -2043,6 +2156,7 @@ cat /dev/null > ~/.bash_history && history -c
 ```
 
 ---
+
 
 ## 19. Removal Commands (DANGEROUS)
 
@@ -2081,343 +2195,142 @@ rm -rf /data/data/com.termux/files/usr
 
 ---
 
-## Official Resources
 
-### 📖 Documentation
-- **[Termux Wiki](https://wiki.termux.com)** - Complete official documentation
-- **[Termux.dev](https://termux.dev)** - Official website
-- **[GitHub Organization](https://github.com/termux)** - All official repositories
-- **[Package Search](https://packages.termux.dev)** - Find available packages
-- **[Package Registry](https://termux-packages.ajam.dev)** - Complete package list (JSON, YAML, Markdown)
+## Resources
 
-### 📱 Official Repositories
-- **[Termux App](https://github.com/termux/termux-app)** - Main application
-- **[Termux Packages](https://github.com/termux/termux-packages)** - Package build scripts
-- **[Termux API](https://github.com/termux/termux-api)** - Android API access
-- **[Termux Boot](https://github.com/termux/termux-boot)** - Boot scripts
-- **[Termux Float](https://github.com/termux/termux-float)** - Floating window
-- **[Termux Styling](https://github.com/termux/termux-styling)** - Color schemes & fonts
-- **[Termux Widget](https://github.com/termux/termux-widget)** - Home screen shortcuts
-- **[Termux X11](https://github.com/termux/termux-x11)** - X11 server
+Everything below was scattered across six separate, heavily-overlapping "resources" sections in the original document (Official Resources, GitHub Repositories & Collections, Community & Support, Related Termux Apps, Learning Resources, GitHub Repositories & Resources, Additional Resources, Quick Links Reference). They're merged here into one place with duplicates removed.
 
----
+### Official Documentation & Repositories
 
-## GitHub Repositories & Collections
+| Resource | Link |
+|----------|------|
+| Termux Wiki | https://wiki.termux.com |
+| Termux.dev (official site) | https://termux.dev |
+| GitHub Organization | https://github.com/termux |
+| Package Search | https://packages.termux.dev |
+| Package Registry (JSON/YAML/Markdown) | https://termux-packages.ajam.dev |
+| Termux App (main app repo) | https://github.com/termux/termux-app |
+| Termux Packages (build scripts) | https://github.com/termux/termux-packages |
+| Termux API | https://github.com/termux/termux-api |
+| Termux Boot | https://github.com/termux/termux-boot |
+| Termux Float | https://github.com/termux/termux-float |
+| Termux Styling | https://github.com/termux/termux-styling |
+| Termux Widget | https://github.com/termux/termux-widget |
+| Termux X11 | https://github.com/termux/termux-x11 |
+
+### Download Termux & Add-ons
+
+**Main app:** [F-Droid](https://f-droid.org/packages/com.termux/) (recommended) or [GitHub Releases](https://github.com/termux/termux-app/releases). Avoid the Play Store build — see [Download & Installation](#download--installation).
+
+| Add-on | Purpose | Source |
+|--------|---------|--------|
+| Termux:API | Access Android system features | [F-Droid](https://f-droid.org/packages/com.termux.api/) |
+| Termux:Boot | Run scripts on device boot | [F-Droid](https://f-droid.org/packages/com.termux.boot/) |
+| Termux:Float | Floating terminal window | [F-Droid](https://f-droid.org/packages/com.termux.window/) |
+| Termux:Styling | Color schemes and fonts | [F-Droid](https://f-droid.org/packages/com.termux.styling/) |
+| Termux:Widget | Home screen shortcuts | [F-Droid](https://f-droid.org/packages/com.termux.widget/) |
+| Termux:Tasker | Tasker integration plugin | [F-Droid](https://f-droid.org/packages/com.termux.tasker/) |
+| Termux:X11 | X11 server for GUI apps | [GitHub](https://github.com/termux/termux-x11/releases) (not on F-Droid) |
 
 ### Awesome Lists & Curated Collections
 
-**📚 Comprehensive Resource Lists:**
+| Repository | Description |
+|------------|-------------|
+| [Awesome Termux](https://github.com/agnostic-apollo/Awesome-Termux) | Most comprehensive curated list of resources |
+| [Awesome-Termux (T4P4N)](https://github.com/T4P4N/Awesome-Termux) | Bash scripts, wiki, articles, shells |
+| [Awesome Termux (adrianogil)](https://github.com/adrianogil/awesome-termux) | General awesome list |
+| [Awesome Termux Hacking](https://github.com/may215/awesome-termux-hacking) | Security tools collection |
+| [All-in-one Termux Tools](https://github.com/DamnYatin/All-in-one-termux-tools) | Hacking tools compilation |
+| [Termux Command Handbook](https://github.com/BlackTechX011/Termux-Command-Handbook) | Detailed command reference |
 
-| Repository | Description | Stars |
-|------------|-------------|-------|
-| [Awesome Termux](https://github.com/agnostic-apollo/Awesome-Termux) | Most comprehensive curated list of resources | 1k+ |
-| [Awesome-Termux (T4P4N)](https://github.com/T4P4N/Awesome-Termux) | Bash scripts, Wiki, Articles, Shells | 500+ |
-| [Awesome Termux (adrianogil)](https://github.com/adrianogil/awesome-termux) | General awesome list | 300+ |
-| [Awesome Termux Hacking](https://github.com/may215/awesome-termux-hacking) | Security tools collection | 400+ |
-| [All-in-one Tools](https://github.com/DamnYatin/All-in-one-termux-tools) | Hacking tools compilation | 200+ |
-| [Termux Command Handbook](https://github.com/BlackTechX011/Termux-Command-Handbook) | Detailed command reference | 100+ |
+### Tool Installers
 
-### Tool Installers & Package Managers
-
-**🔧 All-in-One Installers:**
-
-| Tool | Description | Tools Count | Stars |
-|------|-------------|-------------|-------|
-| [AllHackingTools](https://github.com/mishakorzik/AllHackingTools) | Complete hacking tools installer | 200+ | 3.5k+ |
-| [Tool-X](https://github.com/rajkumardusad/Tool-X) | Multi-purpose tool installer | 370+ | 2.5k+ |
-| [Lazymux](https://github.com/Gameye98/Lazymux) | Lazy tool installer for Termux | 100+ | 2k+ |
+| Tool | Description |
+|------|-------------|
+| [AllHackingTools](https://github.com/mishakorzik/AllHackingTools) | All-in-one installer for 200+ tools |
+| [Tool-X](https://github.com/rajkumardusad/Tool-X) | Installer for 370+ tools |
+| [Lazymux](https://github.com/Gameye98/Lazymux) | Termux tool installer |
 
 ### Popular Tools by Category
 
-**🔐 Security & Penetration Testing:**
-- **[Metasploit Framework](https://github.com/rapid7/metasploit-framework)** - Penetration testing framework
-- **[Nmap](https://github.com/nmap/nmap)** - Network scanner
-- **[SQLMap](https://github.com/sqlmapproject/sqlmap)** - SQL injection tool
-- **[Social-Engineer Toolkit](https://github.com/trustedsec/social-engineer-toolkit)** - SET framework
-- **[TBomb](https://github.com/TheSpeedX/TBomb)** - SMS/Call bomber (educational)
-- **[Seeker](https://github.com/thewhiteh4t/seeker)** - Location tracking tool
-- **[Zphisher](https://github.com/htr-tech/zphisher)** - Phishing tool (authorized use only)
+**Security & Penetration Testing** *(industry-standard tools — see [Security Tools](#16-security-tools-use-responsibly) for legal/ethical context before using any of these)*:
+[Metasploit](https://github.com/rapid7/metasploit-framework) · [Nmap](https://github.com/nmap/nmap) · [SQLMap](https://github.com/sqlmapproject/sqlmap) · [Social-Engineer Toolkit](https://github.com/trustedsec/social-engineer-toolkit) · [Ngrok](https://ngrok.com/) · [TBomb](https://github.com/TheSpeedX/TBomb) · [Seeker](https://github.com/thewhiteh4t/seeker) · [Zphisher](https://github.com/htr-tech/zphisher) (authorized use only)
 
-**🛠️ System & Root Tools:**
-- **[agnostic-apollo/sudo](https://github.com/agnostic-apollo/sudo)** - Root wrapper for Termux
-- **[agnostic-apollo/tudo](https://github.com/agnostic-apollo/tudo)** - Termux user context wrapper
-- **[TSU](https://github.com/cswl/tsu)** - Termux SU wrapper
+**System & Root Tools:** [agnostic-apollo/sudo](https://github.com/agnostic-apollo/sudo) · [agnostic-apollo/tudo](https://github.com/agnostic-apollo/tudo) · [TSU](https://github.com/cswl/tsu)
 
-**💻 Development Tools:**
-- **[Code-Server](https://github.com/coder/code-server)** - VS Code in the browser
-- **[Jupyter Notebook](https://github.com/jupyter/notebook)** - Interactive Python notebooks
-- **[NodeJS Projects](https://nodejs.org/)** - JavaScript runtime
+**Development Tools:** [Code-Server](https://github.com/coder/code-server) (VS Code in browser) · [Jupyter Notebook](https://github.com/jupyter/notebook) · [Node.js](https://nodejs.org/)
 
-**🎨 Customization:**
-- **[Termux-Monet](https://github.com/HardcodedCat/termux-monet)** - Material You themes
-- **[Oh My Termux](https://github.com/4679/oh-my-termux)** - Termux customization
-- **[Termux-Style](https://github.com/adi1090x/termux-style)** - Color schemes
+**Customization:** [Termux-Monet](https://github.com/HardcodedCat/termux-monet) (Material You themes) · [Oh My Termux](https://github.com/4679/oh-my-termux) · [Termux-Style](https://github.com/adi1090x/termux-style)
 
-**📱 Media & Entertainment:**
-- **[yt-dlp](https://github.com/yt-dlp/yt-dlp)** - YouTube downloader
-- **[mpv](https://mpv.io/)** - Media player
-- **[ffmpeg](https://ffmpeg.org/)** - Media converter
-- **[spotdl](https://github.com/spotDL/spotify-downloader)** - Spotify downloader
+**Media & Entertainment:** [yt-dlp](https://github.com/yt-dlp/yt-dlp) · [mpv](https://mpv.io/) · [ffmpeg](https://ffmpeg.org/) · [spotdl](https://github.com/spotDL/spotify-downloader)
 
 ### Linux Distributions in Termux
 
-**🐧 Proot Distributions:**
-
-| Distribution | Repository | Description |
-|--------------|------------|-------------|
-| **Andronix** | [AndronixApp/AndronixOrigin](https://github.com/AndronixApp/AndronixOrigin) | Multiple Linux distros installer |
-| **TermuxAlpine** | [TermuxAlpine/TermuxAlpine](https://github.com/TermuxAlpine/TermuxAlpine) | Alpine Linux in Termux |
-| **TermuxArch** | [TermuxArch/TermuxArch](https://github.com/TermuxArch/TermuxArch) | Arch Linux in Termux |
-| **Nethunter** | [Hax4us/Nethunter-In-Termux](https://github.com/Hax4us/Nethunter-In-Termux) | Kali NetHunter installer |
-| **Ubuntu** | Built-in | `proot-distro install ubuntu` |
-| **Debian** | Built-in | `proot-distro install debian` |
-| **Fedora** | Built-in | `proot-distro install fedora` |
-| **Arch Linux** | Built-in | `proot-distro install archlinux` |
+| Distribution | Source | Notes |
+|---------------|--------|-------|
+| Ubuntu | Built-in | `proot-distro install ubuntu` — see [Proot-Distro Ubuntu](#13-proot-distro-ubuntu) |
+| Debian | Built-in | `proot-distro install debian` |
+| Fedora | Built-in | `proot-distro install fedora` |
+| Arch Linux | Built-in | `proot-distro install archlinux` |
+| Andronix | [AndronixApp/AndronixOrigin](https://github.com/AndronixApp/AndronixOrigin) | Installer for multiple distros |
+| TermuxAlpine | [TermuxAlpine/TermuxAlpine](https://github.com/TermuxAlpine/TermuxAlpine) | Alpine Linux installer |
+| TermuxArch | [TermuxArch/TermuxArch](https://github.com/TermuxArch/TermuxArch) | Arch Linux installer |
+| NetHunter | [Hax4us/Nethunter-In-Termux](https://github.com/Hax4us/Nethunter-In-Termux) | Kali NetHunter installer |
 
 ### GitHub Topic Collections
 
-**Browse by Topic:**
-- 🔗 [termux](https://github.com/topics/termux) - All Termux projects
-- 🔗 [termux-guide](https://github.com/topics/termux-guide) - Tutorials and guides
-- 🔗 [termux-tools](https://github.com/topics/termux-tools?o=desc&s=stars) - Useful tools (sorted by stars)
-- 🔗 [termux-commands](https://github.com/topics/termux-commands) - Command references
-- 🔗 [termux-environment](https://github.com/topics/termux-environment?o=desc&s=stars) - Setup configs
-- 🔗 [termux-hacking](https://github.com/topics/termux-hacking) - Security tools
-- 🔗 [termux-proot](https://github.com/topics/termux-proot) - Proot-distro projects
-- 🔗 [termux-book](https://github.com/topics/termux-book) - Learning materials
-- 🔗 [termux-style](https://github.com/topics/termux-style) - Themes & customization
-- 🔗 [awesome-termux](https://github.com/topics/awesome-termux) - Awesome lists
-
----
-
-## Community & Support
-
-### 💬 Discussion Forums
-- **[Reddit - r/termux](https://reddit.com/r/termux)** - Active community (100k+ members)
-- **[GitHub Discussions](https://github.com/termux/termux-app/discussions)** - Official discussions
-- **[Gitter Chat](https://gitter.im/termux/termux)** - Live chat support
-- **[Discord Servers](https://discord.gg/termux)** - Community Discord
-- **[Telegram Groups](https://t.me/termux)** - Telegram community
-- **[XDA Forums](https://forum.xda-developers.com/search/?q=termux)** - Developer discussions
-
-### 🐛 Report Issues
-- **[Bug Reports](https://github.com/termux/termux-app/issues)** - Official issue tracker
-- **[Package Issues](https://github.com/termux/termux-packages/issues)** - Package problems
-
----
-
-## Related Termux Apps
-
-### 📲 Essential Add-ons (Install from F-Droid)
-
-| App | Purpose | F-Droid Link |
-|-----|---------|--------------|
-| **Termux** | Main terminal app | [Download](https://f-droid.org/packages/com.termux/) |
-| **Termux:API** | Access Android system features | [Download](https://f-droid.org/packages/com.termux.api/) |
-| **Termux:Boot** | Run scripts on device boot | [Download](https://f-droid.org/packages/com.termux.boot/) |
-| **Termux:Float** | Floating terminal window | [Download](https://f-droid.org/packages/com.termux.window/) |
-| **Termux:Styling** | Color schemes and fonts | [Download](https://f-droid.org/packages/com.termux.styling/) |
-| **Termux:Widget** | Home screen shortcuts | [Download](https://f-droid.org/packages/com.termux.widget/) |
-| **Termux:Tasker** | Tasker integration plugin | [Download](https://f-droid.org/packages/com.termux.tasker/) |
-| **Termux:X11** | X11 server for GUI apps | [GitHub](https://github.com/termux/termux-x11/releases) |
-
-**Note:** Termux:X11 is only available on GitHub, not F-Droid.
-
----
-
-## Learning Resources
-
-### 📖 Documentation & Guides
-- **[Official Wiki](https://wiki.termux.com)** - Comprehensive documentation
-- **[Termux Cheat Sheet](https://wiki.termux.com/wiki/Termux-cheat-sheet)** - Quick reference
-- **[Package Documentation](https://wiki.termux.com/wiki/Package_Management)** - Package management guide
-- **[Development Wiki](https://github.com/termux/termux-packages/wiki)** - For developers
-
-### 🎥 Video Tutorials
-- **Tech Raj** - Termux tutorials and tips
-- **Hacker's Hub** - Security and hacking tutorials
-- **Termux Lab** - Tips, tricks, and how-tos
-- **Dev Empty** - Programming in Termux
-
-### 📝 Blogs & Articles
-- **[Termux.dev Blog](https://termux.dev/blog/)** - Official blog
-- **[Linux On Android](https://linuxonandroid.com)** - Related guides
-- **[Android Central](https://www.androidcentral.com/termux)** - Beginner guides
-- **[Medium - Termux](https://medium.com/tag/termux)** - Community articles
-
-### 📚 Books & eBooks
-- Browse [termux-book topic](https://github.com/topics/termux-book) on GitHub
-
----
-
-## 📦 GitHub Repositories & Resources
-
-### Official Termux Resources
-
-- **[Termux App](https://github.com/termux/termux-app)** - Official Termux application repository
-- **[Termux Wiki](https://wiki.termux.com)** - Comprehensive documentation
-- **[Termux Packages](https://github.com/termux/termux-packages)** - Package build scripts
-
-### Curated Topic Collections
-
-#### General Termux Resources
-- **[Termux Guide](https://github.com/topics/termux-guide)** - Tutorials and guides for Termux
-- **[Termux Topics](https://github.com/topics/termux)** - All Termux-related projects
-- **[Termux Commands](https://github.com/topics/termux-commands)** - Command references and examples
-- **[Termux Tools](https://github.com/topics/termux-tools?o=desc&s=stars)** - Useful tools (sorted by stars)
-- **[Termux Tool](https://github.com/topics/termux-tool)** - Additional tool collections
-
-#### Environment & Setup
-- **[Termux Environment](https://github.com/topics/termux-environment?o=desc&s=stars)** - Setup and configuration (sorted by stars)
-- **[Termux Proot](https://github.com/topics/termux-proot)** - Proot-distro related projects
-- **[Termux Style](https://github.com/topics/termux-style)** - Themes and customization
-
-#### Learning Resources
-- **[Termux Book](https://github.com/topics/termux-book)** - Comprehensive learning materials
-- **[Termux Command Handbook](https://github.com/BlackTechX011/Termux-Command-Handbook)** - Detailed command reference
-
-#### Security & Hacking Tools
-- **[Termux Hacking](https://github.com/topics/termux-hacking)** - Security testing tools
-  - ⚠️ **WARNING:** Use only for authorized testing and educational purposes
-
-#### Android Recommendations
-- **[Termux Recommended for Android](https://github.com/topics/termux-recommended-for-android)** - Android-optimized tools and apps
-
-### Popular Projects by Category
-
-**Automation & Scripts:**
-- Termux-services
-- Termux-widget
-- Termux-boot
-
-**Desktop Environments:**
-- AnLinux
-- Andronix
-- Termux-desktop
-
-**Development Tools:**
-- Termux-api
-- Code-server
-- Git integration tools
-
-**System Utilities:**
-- Termux-styling
-- Termux-monet (Material You themes)
-- Font installers
-
-**Media & Entertainment:**
-- mpv configurations
-- YouTube downloaders
-- Music players
-
-### Awesome Lists & Curated Collections
-
-**Comprehensive Resource Lists:**
-- **[Awesome Termux](https://github.com/agnostic-apollo/Awesome-Termux)** - Most comprehensive curated list
-- **[Awesome-Termux (T4P4N)](https://github.com/T4P4N/Awesome-Termux)** - Bash scripts, Wiki, Articles, Shells
-- **[Awesome Termux (adrianogil)](https://github.com/adrianogil/awesome-termux)** - General awesome list
-- **[Awesome Termux Hacking](https://github.com/may215/awesome-termux-hacking)** - Security tools collection
-- **[All-in-one Termux Tools](https://github.com/DamnYatin/All-in-one-termux-tools)** - Hacking tools list
-
-**Tool Installers & Package Managers:**
-- **[AllHackingTools](https://github.com/mishakorzik/AllHackingTools)** - All-in-One hacking tools installer
-- **[Tool-X](https://github.com/rajkumardusad/Tool-X)** - 370+ tool installer for Termux
-- **[Lazymux](https://github.com/Gameye98/Lazymux)** - Termux tool installer
-
-**Popular Individual Tools:**
-- **[Metasploit](https://github.com/rapid7/metasploit-framework)** - Penetration testing framework
-- **[Nmap](https://github.com/nmap/nmap)** - Network scanner
-- **[SQLMap](https://github.com/sqlmapproject/sqlmap)** - SQL injection tool
-- **[Social-Engineer Toolkit](https://github.com/trustedsec/social-engineer-toolkit)** - SET framework
-- **[Ngrok](https://ngrok.com/)** - Secure tunneling
-- **[TBomb](https://github.com/TheSpeedX/TBomb)** - SMS/Call bombing tool
-- **[Seeker](https://github.com/thewhiteh4t/seeker)** - Location tracking tool
-
-**Root & Advanced Tools:**
-- **[agnostic-apollo/sudo](https://github.com/agnostic-apollo/sudo)** - Root wrapper for Termux
-- **[agnostic-apollo/tudo](https://github.com/agnostic-apollo/tudo)** - Termux user context wrapper
-- **[TSU](https://github.com/cswl/tsu)** - Termux SU wrapper
-
-**Linux Distributions in Termux:**
-- **[Andronix](https://github.com/AndronixApp/AndronixOrigin)** - Install Linux distros
-- **[TermuxAlpine](https://github.com/TermuxAlpine/TermuxAlpine)** - Alpine Linux installer
-- **[TermuxArch](https://github.com/TermuxArch/TermuxArch)** - Arch Linux installer
-- **[Nethunter-In-Termux](https://github.com/Hax4us/Nethunter-In-Termux)** - Kali NetHunter installer
-
-**Package & Registry Information:**
-- **[Termux Packages Registry](https://termux-packages.ajam.dev)** - Complete package list (Markdown, JSON, YAML)
-- **[Termux Package Search](https://packages.termux.dev)** - Official package search
-
-### How to Explore
-
-```bash
-# Search for Termux packages on GitHub
-# Visit: https://github.com/search?q=termux
-
-# Clone interesting repositories
-git clone https://github.com/username/repo-name
-
-# Star repositories you find useful
-gh repo view owner/repo --web
-```
-
-### Contributing
-
-If you create useful Termux tools or guides:
-1. Add relevant topics to your repository
-2. Use tags: `termux`, `termux-tool`, `termux-guide`, etc.
-3. Write clear documentation
-4. Share on r/termux community
-
----
-
-## 📚 Additional Resources
-
-### Official Documentation
-- **[Termux Wiki](https://wiki.termux.com)** - Complete documentation
-- **[Termux GitHub](https://github.com/termux)** - Official organization
-- **[Package Search](https://packages.termux.dev)** - Find available packages
-- **[Termux.dev](https://termux.dev)** - Official website
-
-### Community & Support
-- **[r/termux](https://reddit.com/r/termux)** - Reddit community
-- **[Termux Gitter](https://gitter.im/termux/termux)** - Live chat
-- **[Discord Servers](https://discord.gg/termux)** - Community discussions
-- **[Termux Forum](https://github.com/termux/termux-app/discussions)** - GitHub discussions
-
-### Download Termux
-- **[F-Droid (Recommended)](https://f-droid.org/packages/com.termux/)** - Latest official version
-- **[GitHub Releases](https://github.com/termux/termux-app/releases)** - Direct APK downloads
-- ⚠️ **DO NOT use Play Store version** - It's outdated and no longer maintained
-
-### Related Apps (F-Droid)
-- **Termux:API** - Access Android features
-- **Termux:Boot** - Run scripts on boot
-- **Termux:Float** - Floating terminal window
-- **Termux:Styling** - Color schemes and fonts
-- **Termux:Tasker** - Tasker integration
-- **Termux:Widget** - Home screen shortcuts
-- **Termux:X11** - X11 server for GUI apps
+| Topic | Link |
+|-------|------|
+| termux | https://github.com/topics/termux |
+| termux-guide | https://github.com/topics/termux-guide |
+| termux-tools (by stars) | https://github.com/topics/termux-tools?o=desc&s=stars |
+| termux-tool | https://github.com/topics/termux-tool |
+| termux-commands | https://github.com/topics/termux-commands |
+| termux-environment (by stars) | https://github.com/topics/termux-environment?o=desc&s=stars |
+| termux-proot | https://github.com/topics/termux-proot |
+| termux-style | https://github.com/topics/termux-style |
+| termux-book | https://github.com/topics/termux-book |
+| termux-hacking | https://github.com/topics/termux-hacking |
+| termux-recommended-for-android | https://github.com/topics/termux-recommended-for-android |
+| awesome-termux | https://github.com/topics/awesome-termux |
 
 ### Learning Resources
-- **[Awesome Termux](https://github.com/agnostic-apollo/Awesome-Termux)** - Curated list of resources
-- **[Termux Cheat Sheet](https://wiki.termux.com/wiki/Termux-cheat-sheet)** - Quick reference
-- **[Android Terminal](https://www.androidcentral.com/termux)** - Beginner guides
 
-### YouTube Channels
-- **Tech Raj** - Termux tutorials
-- **Hacker's Hub** - Security and hacking
-- **Termux Lab** - Tips and tricks
-- **Dev Empty** - Programming in Termux
+**Documentation & guides:**
+- [Termux Cheat Sheet](https://wiki.termux.com/wiki/Termux-cheat-sheet) — quick reference
+- [Package Management Wiki](https://wiki.termux.com/wiki/Package_Management) — package management guide
+- [Termux Packages Wiki](https://github.com/termux/termux-packages/wiki) — for developers/packagers
+- Browse the [termux-book topic](https://github.com/topics/termux-book) for longer-form learning material
 
-### Blogs & Websites
-- **[Termux.dev Blog](https://termux.dev/blog/)** - Official blog
-- **[Linux On Android](https://linuxonandroid.com)** - Related guides
-- **[XDA Forums](https://forum.xda-developers.com/search/?q=termux)** - Community discussions
+**Blogs & articles:**
+- [Termux.dev Blog](https://termux.dev/blog/) — official blog
+- [Linux On Android](https://linuxonandroid.com)
+- [Android Central — Termux](https://www.androidcentral.com/termux)
+- [Medium — Termux tag](https://medium.com/tag/termux)
+
+**Video:** the original guide listed "Hacker's Hub," "Termux Lab," and "Dev Empty" as YouTube channels with no links — they couldn't be verified, so they've been dropped rather than carried forward as unverified recommendations. [Tech Raj](https://www.youtube.com/channel/UCY7t-zBYtdj6ZgiRpi3WIYg) is confirmed active and covers Termux/Android. Worth just searching YouTube directly for current creators, since this space turns over quickly.
+
+### Community & Support
+
+**Discussion:** [Reddit r/termux](https://reddit.com/r/termux) · [GitHub Discussions](https://github.com/termux/termux-app/discussions) · [Gitter Chat](https://gitter.im/termux/termux) · [Discord](https://discord.gg/termux) · [Telegram](https://t.me/termux) · [XDA Forums](https://forum.xda-developers.com/search/?q=termux)
+
+**Report issues:** [Termux App issues](https://github.com/termux/termux-app/issues) · [Termux Packages issues](https://github.com/termux/termux-packages/issues)
+
+### Contributing Back
+
+If you build a useful Termux tool or guide of your own:
+```bash
+# Explore what's out there
+git clone https://github.com/username/repo-name
+gh repo view owner/repo --web
+```
+- Tag your repo with `termux`, `termux-tool`, `termux-guide`, etc. so it surfaces in the topic collections above
+- Write clear documentation and consider sharing it on r/termux
 
 ---
 
-## 🛟 Troubleshooting
+
+## Troubleshooting
 
 ### Packages Won't Install
 ```bash
@@ -2451,63 +2364,18 @@ exit
 # Then reopen Termux
 ```
 
----
-
-## 🔗 Quick Links Reference
-
-### Most Important Links
-| Resource | URL |
-|----------|-----|
-| Download Termux (F-Droid) | https://f-droid.org/packages/com.termux/ |
-| Official GitHub | https://github.com/termux/termux-app |
-| Documentation Wiki | https://wiki.termux.com |
-| Package Search | https://packages.termux.dev |
-| Reddit Community | https://reddit.com/r/termux |
-
-### GitHub Topic Collections
-| Topic | URL |
-|-------|-----|
-| Termux Guide | https://github.com/topics/termux-guide |
-| Termux Tools (Popular) | https://github.com/topics/termux-tools?o=desc&s=stars |
-| Termux Environment | https://github.com/topics/termux-environment?o=desc&s=stars |
-| Termux Commands | https://github.com/topics/termux-commands |
-| Termux Hacking | https://github.com/topics/termux-hacking |
-| Termux Proot | https://github.com/topics/termux-proot |
-| Termux Book | https://github.com/topics/termux-book |
-| Termux Style | https://github.com/topics/termux-style |
-| Awesome Termux | https://github.com/topics/awesome-termux |
-| Termux Awesome List | https://github.com/topics/termux-awesome-list |
-| Command Handbook | https://github.com/BlackTechX011/Termux-Command-Handbook |
-
-### Essential Awesome Lists
-| Repository | Description |
-|------------|-------------|
-| [Awesome Termux](https://github.com/agnostic-apollo/Awesome-Termux) | Most comprehensive curated resource list |
-| [Awesome-Termux (T4P4N)](https://github.com/T4P4N/Awesome-Termux) | Bash scripts, Wiki, Articles, Shells |
-| [Awesome Termux (adrianogil)](https://github.com/adrianogil/awesome-termux) | General awesome list |
-| [Awesome Termux Hacking](https://github.com/may215/awesome-termux-hacking) | Security tools collection |
-| [All-in-one Tools](https://github.com/DamnYatin/All-in-one-termux-tools) | Hacking tools compilation |
-
-### Tool Installers
-| Tool | Description | Stars |
-|------|-------------|-------|
-| [AllHackingTools](https://github.com/mishakorzik/AllHackingTools) | All-in-One installer for 200+ tools | 3.5k+ |
-| [Tool-X](https://github.com/rajkumardusad/Tool-X) | Install 370+ hacking tools | 2.5k+ |
-| [Lazymux](https://github.com/Gameye98/Lazymux) | Termux tool installer | 2k+ |
-
-### Related Apps Download
-| App | Purpose | F-Droid Link |
-|-----|---------|--------------|
-| Termux:API | Android system access | https://f-droid.org/packages/com.termux.api/ |
-| Termux:Boot | Run on device boot | https://f-droid.org/packages/com.termux.boot/ |
-| Termux:Float | Floating window | https://f-droid.org/packages/com.termux.window/ |
-| Termux:Styling | Themes & fonts | https://f-droid.org/packages/com.termux.styling/ |
-| Termux:Widget | Home shortcuts | https://f-droid.org/packages/com.termux.widget/ |
-| Termux:Tasker | Tasker integration | https://f-droid.org/packages/com.termux.tasker/ |
+### Environment Is Badly Broken (Reset Without Reinstalling)
+```bash
+# Restore Termux's default shell profile and environment files
+# without wiping your packages or home directory
+termux-reset
+```
+**Note:** `termux-reset` rewrites configuration files under `$PREFIX/etc` and your shell startup files back to defaults. Back up any customized dotfiles (`.bashrc`, `.vimrc`, etc.) first — see [Backup & Restore](#17-backup--restore).
 
 ---
 
-## ❓ Frequently Asked Questions (FAQ)
+
+## Frequently Asked Questions (FAQ)
 
 ### General Questions
 
@@ -2569,7 +2437,7 @@ A: Install VNC server and a lightweight desktop (XFCE recommended). See [VNC Ser
 A: Yes! Install openssh with `pkg install openssh` and run `sshd`.
 
 **Q: How do I backup Termux?**  
-A: See the [Backup & Restore](#15-backup--restore) section for detailed instructions.
+A: See the [Backup & Restore](#17-backup--restore) section for detailed instructions.
 
 **Q: Can I run Windows programs?**  
 A: Not directly. You can try Wine, but compatibility is limited on ARM devices.
@@ -2597,7 +2465,7 @@ A: The tools themselves are legal for educational and authorized testing. Using 
 A: Only if you expose it to the network. By default, SSH runs on localhost only. Always use strong passwords and SSH keys.
 
 **Q: How do I secure my Termux installation?**  
-A: See [Security Best Practices](#13-security-best-practices) section.
+A: See [Security Best Practices](#14-security-best-practices) section.
 
 ### Performance
 
@@ -2611,6 +2479,7 @@ A: Yes, see [Performance Optimization](#8-performance-optimization) for tips inc
 A: Use command-line tools instead, or try a minimal window manager like openbox instead of full desktop environments.
 
 ---
+
 
 ## 📝 Notes
 
@@ -2633,6 +2502,7 @@ A: Use command-line tools instead, or try a minimal window manager like openbox 
 
 ---
 
+
 ## 🙏 Credits & Contributing
 
 **Guide maintained by:** Community contributors  
@@ -2647,11 +2517,12 @@ A: Use command-line tools instead, or try a minimal window manager like openbox 
 
 ---
 
+
 ## 📄 License
 
 This guide is provided as-is for educational purposes. Individual tools and packages mentioned have their own licenses.
 
-**MIT License** - Feel free to share, modify, and distribute with attribution.
+**Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)** — see [LICENSE.md](LICENSE.md). Feel free to share and adapt with attribution, as long as derivatives are shared under the same license.
 
 ---
 
