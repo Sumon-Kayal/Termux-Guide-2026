@@ -7,7 +7,7 @@
 [![Termux](https://img.shields.io/badge/Termux-0.118.3%20stable%20%2F%200.119.0--beta.3-000000?style=for-the-badge&logo=android&logoColor=white)](https://termux.dev)
 [![Android](https://img.shields.io/badge/Android-7.0+-3DDC84?style=for-the-badge&logo=android&logoColor=white)](https://www.android.com)
 [![License](https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg?style=for-the-badge)](LICENSE.md)
-[![Last Updated](https://img.shields.io/badge/Updated-January_2026-green?style=for-the-badge)](.)
+[![Last Updated](https://img.shields.io/badge/Updated-Jun_2026-green?style=for-the-badge)](.)
 
 **📥 Download:** [F-Droid](https://f-droid.org/packages/com.termux/) | [GitHub Releases](https://github.com/termux/termux-app/releases)  
 **⚠️ Avoid Google Play:** Heavily restricted builds with limited functionality
