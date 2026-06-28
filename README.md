@@ -2328,12 +2328,6 @@ These provide **legal** ways to practice security skills with **permission** and
 ## 17. Backup & Restore
 
 ### Create Backup Directory
-```bash
-cd ~/storage/shared
-rm -rf termux-backup 2>/dev/null  # Remove old backup if exists
-mkdir termux-backup
-cd ~
-```
 
 ### Create Full Backup
 ```bash
