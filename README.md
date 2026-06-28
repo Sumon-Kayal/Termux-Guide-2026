@@ -1,5 +1,11 @@
 # 📱 Termux Setup Guide (2025/2026)
 
+<div align="center">
+
+![Termux Setup Guide](https://github.com/Sumon-Kayal/Termux-Guide-2026/blob/8518bcf41ff0afab79115038972d0d642cfd1647/screenshots/1782247350294.jpg)
+
+</div>
+
 > **A comprehensive, safety-focused setup guide for Termux with modern tools and best practices**
 
 <div align="center">
@@ -98,7 +104,7 @@
 
 ### ⚡ Performance & Optimization
 - [8. Performance Optimization](#8-performance-optimization)
-  - [Swap Files](#create-swap-file-for-low-ram-devices) · [Wake Lock](#keep-termux-running-in-the-background-wake-lock)
+  - [Swap Files](#create-swap-file-for-low-ram-devices) · [Wake Lock](#keep-termux-running-in-the-background-wake-lock) · [🆕 Android 12+ Phantom Process Fix](#-android-12-phantom-process-killing-fix)
 
 ### 💻 Development & Use Cases
 - [9. Common Use Cases](#9-common-use-cases)
@@ -108,9 +114,11 @@
   - [SSH Server Setup](#ssh-server-setup)
   - [Code Compilation](#code-compilation)
   - [Database Setup](#database-setup)
+  - [🆕 tmux — Session Management](#tmux--keep-sessions-alive)
 
 ### 🖥️ Environment & GUI Setup
 - [11. Termux:Boot Setup](#11-termuxboot-setup)
+- [🆕 11.5 termux-services](#115-termux-services--auto-restart-background-services)
 - [12. VNC Server Setup](#12-vnc-server-setup)
 - [13. Proot-Distro Ubuntu](#13-proot-distro-ubuntu)
   - [Desktop Environment](#desktop-environment-optional) · [QEMU Support](#qemu-support-optional)
@@ -118,6 +126,7 @@
 ### 🔒 Security
 - [14. Security Best Practices](#14-security-best-practices)
   - [SSH Keys](#ssh-key-setup) · [File Encryption](#file-encryption) · [Password Management](#password-management) · [Shell History Hygiene](#shell-history-hygiene)
+- [🆕 14.5 Customizing Termux](#145-customizing-termux--termuxproperties)
 - [15. AVcleaner Tool](#15-avcleaner-tool)
 - [16. Security Tools (USE RESPONSIBLY)](#16-security-tools-use-responsibly)
 
@@ -913,6 +922,60 @@ termux-change-repo
 echo "Acquire::Queue-Mode \"access\";" >> $PREFIX/etc/apt/apt.conf.d/99custom
 ```
 
+### 🆕 Android 12+ Phantom Process Killing Fix
+
+**What is this?**
+Android 12 and newer silently kills background processes started by Termux after a while. This means your running servers, Python scripts, and compilation jobs can die without any error message. This is one of the most common reasons things "randomly stop working" in Termux on modern phones.
+
+**How do you know you're affected?**
+- You're on Android 12, 13, 14, or 15
+- Running servers (sshd, gitea, nginx) stop on their own
+- Long scripts die partway through for no reason
+- `termux-wake-lock` doesn't help (it only prevents CPU sleep, not this)
+
+**The fix — do this once and it survives reboots:**
+
+You don't need a PC. Android 11+ lets you use ADB wirelessly from Termux itself.
+
+**Step 1 — Enable Developer Options on your phone:**
+1. Open **Settings** → **About Phone**
+2. Tap **Build Number** 7 times quickly
+3. You'll see "You are now a developer!" — that's the confirmation
+
+**Step 2 — Enable Wireless Debugging:**
+1. Go to **Settings** → **Developer Options** (scroll down to find it)
+2. Turn on **Wireless Debugging**
+3. Tap on **"Wireless Debugging"** text to open its submenu
+4. Tap **"Pair device with pairing code"**
+5. You'll see a **Pairing Port** number and a **6-digit code** — keep this screen open
+
+**Step 3 — Run the fix in Termux:**
+```bash
+# Install ADB tools
+pkg install android-tools
+
+# Pair with your own phone (replace PORT and CODE with what you see on screen)
+adb pair localhost:PORT CODE
+# Example: adb pair localhost:41234 123456
+# You should see: Successfully paired to localhost:PORT
+
+# Now connect (use the main port shown on the Wireless Debugging screen, NOT the pairing port)
+adb connect localhost:CONNECT_PORT
+# You should see: connected to localhost:PORT
+
+# Apply the fix
+adb shell "/system/bin/device_config set_sync_disabled_for_tests persistent; \
+  /system/bin/device_config put activity_manager max_phantom_processes 2147483647"
+```
+
+**Step 4 — Verify it worked:**
+```bash
+adb shell "/system/bin/device_config get activity_manager max_phantom_processes"
+# Should print: 2147483647
+```
+
+> **Note:** You may need to re-apply this after a major Android system update. If "Wireless Debugging" doesn't appear in Developer Options, search for it in Settings — some phone makers move it.
+
 ---
 
 
@@ -1137,6 +1200,79 @@ createdb mydb
 psql mydb
 ```
 
+### tmux — Keep Sessions Alive
+
+**What is tmux and why do you need it?**
+
+When you close the Termux app or your phone locks the screen, everything you were running stops. tmux is a "terminal multiplexer" — it keeps your work running in the background even when the app isn't visible. Think of it like minimizing a window instead of closing it.
+
+With tmux you can also split your terminal into multiple panes (side by side), which is useful when you want to run a server in one pane and write code in another.
+
+**Step 1 — Install:**
+```bash
+pkg install tmux
+```
+
+**Step 2 — Start a named session:**
+```bash
+tmux new -s main
+# "main" is just a name — you can call it anything
+```
+You're now inside a tmux session. Everything you run here will keep going even if you close Termux.
+
+**Step 3 — The key you need to know:**
+All tmux commands start with **Ctrl+B** (press Ctrl and B together, then release, then press the next key).
+
+**Most important commands:**
+
+| What you want to do | Keys |
+|---|---|
+| Detach (leave session running) | `Ctrl+B` then `D` |
+| List your sessions | (outside tmux) `tmux ls` |
+| Come back to a session | (outside tmux) `tmux attach -t main` |
+| New window (like a new tab) | `Ctrl+B` then `C` |
+| Switch between windows | `Ctrl+B` then `N` (next) or `P` (previous) |
+| Split screen left/right | `Ctrl+B` then `%` |
+| Split screen top/bottom | `Ctrl+B` then `"` |
+| Move between split panes | `Ctrl+B` then an arrow key |
+| Scroll up through output | `Ctrl+B` then `[` — then arrow keys (press `Q` to exit scroll) |
+| Kill current session | `Ctrl+B` then `X` → confirm with `Y` |
+
+**Step 4 — Optional: Make tmux more comfortable**
+
+Create a config file to enable mouse scrolling and other improvements:
+```bash
+cat > ~/.tmux.conf << 'EOF'
+# Enable mouse support (lets you click to switch panes and scroll)
+set -g mouse on
+
+# Keep more scroll history
+set -g history-limit 10000
+
+# Start window numbers at 1 instead of 0 (easier to reach on keyboard)
+set -g base-index 1
+
+# Reload config without restarting tmux
+bind r source-file ~/.tmux.conf \; display "Config reloaded!"
+EOF
+```
+Apply it immediately: `tmux source-file ~/.tmux.conf` (or just close and reopen tmux).
+
+**Step 5 — Start tmux automatically on boot (optional)**
+
+Combined with Termux:Boot (see §11), tmux can start a persistent session every time your phone turns on:
+```bash
+cat > ~/.termux/boot/start-tmux << 'EOF'
+#!/data/data/com.termux/files/usr/bin/sh
+termux-wake-lock
+tmux new-session -d -s main
+EOF
+
+chmod +x ~/.termux/boot/start-tmux
+```
+
+> **Tip:** Run `tmux attach -t main` whenever you open Termux and your session will always be there.
+
 ---
 
 
@@ -1291,6 +1427,93 @@ chmod +x ~/.termux/boot/backup
 # Run manually to test
 ~/.termux/boot/start-sshd
 ```
+
+---
+
+
+## 11.5 termux-services — Auto-Restart Background Services
+
+**What problem does this solve?**
+
+Boot scripts from §11 work, but if a service crashes it stays dead until you restart it manually. `termux-services` uses a supervisor called **runit** that watches your services and automatically restarts them if they crash. It also gives you clean commands to start, stop, and check services — instead of hunting down process IDs with `pkill`.
+
+**When to use which:**
+| Situation | Use |
+|---|---|
+| One-time setup tasks on boot (wake lock, tmux init) | Boot scripts (§11) |
+| Long-running servers that must stay up (sshd, gitea) | termux-services |
+
+### Step 1 — Install
+
+```bash
+pkg install termux-services
+```
+
+Then **fully close and reopen Termux** — runit needs to initialize when Termux starts fresh.
+
+### Step 2 — See what services are available
+
+```bash
+ls $PREFIX/etc/sv/
+# This lists built-in service configs ready to enable
+# Common ones: sshd, ftpd, crond
+```
+
+### Step 3 — Enable a service
+
+```bash
+# Enable sshd so it starts automatically and restarts if it crashes
+sv-enable sshd
+
+# You should see the service start immediately
+```
+
+### Step 4 — Manage services
+
+```bash
+# Check if a service is running
+sv status sshd
+# Output example: run: sshd: (pid 1234) 42s; run: log: (pid 1235) 42s
+
+# Stop a service
+sv down sshd
+
+# Start it again
+sv up sshd
+
+# Restart it
+sv restart sshd
+
+# Disable permanently (won't start on boot anymore)
+sv-disable sshd
+```
+
+### Step 5 — Create your own supervised service
+
+This example keeps a Python HTTP server running and restarts it automatically if it dies:
+
+```bash
+# 1. Create a folder for your service
+mkdir -p $PREFIX/var/service/myserver
+
+# 2. Write the run script (this is what runit executes)
+cat > $PREFIX/var/service/myserver/run << 'EOF'
+#!/data/data/com.termux/files/usr/bin/sh
+# Start your server here — runit will restart this if it exits
+exec python -m http.server 8080
+EOF
+
+# 3. Make it executable
+chmod +x $PREFIX/var/service/myserver/run
+
+# 4. Enable it
+sv-enable myserver
+
+# 5. Check it's running
+sv status myserver
+```
+
+> **Important:** Use `exec` (not just the command) in your run script. This makes runit properly track the process so it can restart it cleanly.
 
 ---
 
@@ -1793,6 +2016,150 @@ Run it (`./hnuke.sh`) when you want the session to end with a guaranteed-clean h
 ---
 
 
+## 14.5 Customizing Termux — termux.properties
+
+**What is this file?**
+
+`~/.termux/termux.properties` is Termux's personal config file. It controls how the terminal looks and behaves — things like font size, what the extra keys row shows, whether the volume button acts as a shortcut key, and more.
+
+Most users never touch it, but even a few small changes make Termux much more comfortable to use daily.
+
+**Step 1 — Open or create the file:**
+```bash
+# Create the config directory if it doesn't exist yet
+mkdir -p ~/.termux
+
+# Open the file in a text editor
+nano ~/.termux/termux.properties
+```
+
+**Step 2 — Apply changes:**
+
+After saving the file, changes don't apply instantly. Either:
+```bash
+# Option A: Kill and restart Termux from the recents screen
+# Option B: Run this to reload without closing
+termux-reload-settings
+```
+
+---
+
+### Font & Display
+
+```properties
+# Font size (default is 12, range is about 6–36)
+terminal-font-size = 14
+
+# Scrollback lines — how far you can scroll up (default 2000)
+terminal-transcript-rows = 5000
+
+# Cursor style: block | underline | bar
+terminal-cursor-style = bar
+
+# Cursor blink speed in ms (0 = no blink)
+terminal-cursor-blink-rate = 600
+
+# Force full-screen terminal (hides Android status bar)
+fullscreen = true
+```
+
+---
+
+### Keyboard & Button Behaviour
+
+```properties
+# What the back button does:
+# "back"   = normal Android back navigation (default)
+# "escape" = sends Escape key (useful for vim/neovim users)
+back-key = escape
+
+# What the volume keys do:
+# "volume"       = normal volume control (default)
+# "virtual-keys" = shows on-screen keyboard shortcuts
+volume-keys = virtual-keys
+
+# Use this if your keyboard input feels laggy or doubled
+enforce-char-based-input = true
+
+# Hide the soft keyboard when you scroll (reduces accidental input)
+hide-soft-keyboard-on-scroll = true
+```
+
+---
+
+### Extra Keys Row
+
+The extra keys row is the strip of special keys above the keyboard (Ctrl, Alt, Tab, arrows, etc.). This is the most useful thing to customise.
+
+```properties
+# Format: rows separated by \n, keys inside [] separated by |
+# Each key can be a label string or a special key name
+
+# Simple row (one row of common keys):
+extra-keys = [['ESC','/','-','HOME','UP','END','PGUP'],['TAB','CTRL','ALT','LEFT','DOWN','RIGHT','PGDN']]
+
+# Two rows:
+extra-keys = [['ESC','TAB','CTRL','ALT','DEL','BKSP'],['UP','DOWN','LEFT','RIGHT','HOME','END']]
+
+# Row with custom labels and special characters:
+extra-keys = [['ESC','|','/','\\','~','[',']'],['CTRL','ALT','TAB','LEFT','DOWN','UP','RIGHT']]
+```
+
+**Available key names:**
+`CTRL`, `ALT`, `SHIFT`, `FN`, `ESC`, `TAB`, `HOME`, `END`, `PGUP`, `PGDN`, `UP`, `DOWN`, `LEFT`, `RIGHT`, `DEL`, `BKSP`, `ENTER`, `BACKSLASH`, `SPACE`
+
+---
+
+### Shell Customisation — Switch to zsh
+
+Termux uses bash by default. zsh (with oh-my-zsh) gives you better autocomplete, history search, and a more informative prompt.
+
+**Step 1 — Install zsh:**
+```bash
+pkg install zsh
+```
+
+**Step 2 — Install oh-my-zsh (adds themes and plugins):**
+```bash
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+```
+When it asks if you want to change your default shell, say **yes**.
+
+**Step 3 — Verify zsh is your default:**
+```bash
+echo $SHELL
+# Should show: /data/data/com.termux/files/usr/bin/zsh
+```
+
+**Step 4 — Switch manually any time:**
+```bash
+# Switch back to bash
+bash
+
+# Switch to zsh
+zsh
+```
+
+**Useful zsh shortcuts once installed:**
+- Type the start of a previous command → press **↑** to autocomplete from history
+- Press **Tab** twice to see all options for any command
+- `cd -` to jump to the previous directory
+
+**Optional — Starship prompt (fast cross-shell prompt):**
+```bash
+# Install via cargo (requires rust to be installed)
+cargo install starship
+
+# Or via the install script
+curl -sS https://starship.rs/install.sh | sh -s -- --bin-dir $PREFIX/bin
+
+# Add to ~/.zshrc or ~/.bashrc:
+echo 'eval "$(starship init zsh)"' >> ~/.zshrc
+```
+
+---
+
+
 ## 15. AVcleaner Tool
 
 **⚠️ ADVANCED/NICHE TOOL - Most users don't need this!**
@@ -2159,21 +2526,32 @@ Everything below was scattered across six separate, heavily-overlapping "resourc
 
 ### Official Documentation & Repositories
 
-| Resource | Link |
-|----------|------|
-| Termux Wiki | https://wiki.termux.com |
-| Termux.dev (official site) | https://termux.dev |
-| GitHub Organization | https://github.com/termux |
-| Package Search | https://packages.termux.dev |
-| Package Registry (JSON/YAML/Markdown) | https://termux-packages.ajam.dev |
-| Termux App (main app repo) | https://github.com/termux/termux-app |
-| Termux Packages (build scripts) | https://github.com/termux/termux-packages |
-| Termux API | https://github.com/termux/termux-api |
-| Termux Boot | https://github.com/termux/termux-boot |
-| Termux Float | https://github.com/termux/termux-float |
-| Termux Styling | https://github.com/termux/termux-styling |
-| Termux Widget | https://github.com/termux/termux-widget |
-| Termux X11 | https://github.com/termux/termux-x11 |
+| Resource | Link | Purpose |
+|----------|------|---------|
+| Termux Wiki | https://wiki.termux.com | Official documentation |
+| Termux.dev (official site) | https://termux.dev | Main website |
+| GitHub Organization | https://github.com/termux | All official repos |
+| Package Search | https://packages.termux.dev | Search packages |
+| Package Registry (JSON/YAML/Markdown) | https://termux-packages.ajam.dev | Package metadata |
+| **Main Repositories** | | |
+| Termux App (main) | https://github.com/termux/termux-app | Core terminal app |
+| Termux Packages | https://github.com/termux/termux-packages | Build scripts & packages |
+| proot-distro | https://github.com/termux/proot-distro | Linux distro installer |
+| **Add-on Apps** | | |
+| Termux API | https://github.com/termux/termux-api | Android API access |
+| Termux Boot | https://github.com/termux/termux-boot | Auto-run scripts on boot |
+| Termux:Float | https://github.com/termux/termux-float | Floating window mode |
+| Termux Styling | https://github.com/termux/termux-styling | Themes & fonts |
+| Termux Widget | https://github.com/termux/termux-widget | Home screen shortcuts |
+| Termux Tasker | https://github.com/termux/termux-tasker | Tasker integration |
+| Termux X11 | https://github.com/termux/termux-x11 | X11 server for GUI |
+| **Utilities & Tools** | | |
+| Termux Shared | https://github.com/termux/termux-shared | Shared resources |
+| Termux apt | https://github.com/termux/termux-apt | Package manager |
+| Termux Services (runit supervisor) | https://github.com/termux/termux-services | Background service management |
+| **Community & Documentation** | | |
+| Termux Bootstrap | https://github.com/termux/termux-bootstrap | Bootstrap system files |
+| Termux Package Management | https://github.com/termux/apt | APT package manager |
 
 ### Download Termux & Add-ons
 
@@ -2200,6 +2578,22 @@ Everything below was scattered across six separate, heavily-overlapping "resourc
 | [All-in-one Termux Tools](https://github.com/DamnYatin/All-in-one-termux-tools) | Hacking tools compilation |
 | [Termux Command Handbook](https://github.com/BlackTechX011/Termux-Command-Handbook) | Detailed command reference |
 
+### Community-Maintained Termux Projects
+
+| Project | Purpose | Repository |
+|---------|---------|------------|
+| oh-my-termux | Shell customization suite | https://github.com/4679/oh-my-termux |
+| Termux-Monet | Material You color themes | https://github.com/HardcodedCat/termux-monet |
+| Termux Style | Theme & font installer | https://github.com/adi1090x/termux-style |
+| Termux Customization Scripts | Rapid setup scripts | https://github.com/remo-it/termux-customization |
+| Termux Bare Setup | Minimal Termux config | https://github.com/andrinkov/termux-bare-setup |
+| termux-ubuntu | Ubuntu desktop installer | https://github.com/MFDGaming/termux-ubuntu |
+| Andronix | Multi-distro installer GUI | https://github.com/AndronixApp/AndronixOrigin |
+| TermuxAlpine | Alpine Linux for Termux | https://github.com/TermuxAlpine/TermuxAlpine |
+| Termux Fish Shell | Fish shell setup | https://github.com/fish-shell/fish-shell |
+| agnostic-apollo tools | sudo/tudo/termux fixes | https://github.com/agnostic-apollo |
+| TSU (Termux SuperUser) | Privilege escalation | https://github.com/cswl/tsu |
+
 ### Tool Installers
 
 | Tool | Description |
@@ -2211,7 +2605,7 @@ Everything below was scattered across six separate, heavily-overlapping "resourc
 ### Popular Tools by Category
 
 **Security & Penetration Testing** *(industry-standard tools — see [Security Tools](#16-security-tools-use-responsibly) for legal/ethical context before using any of these)*:
-[Metasploit](https://github.com/rapid7/metasploit-framework) · [Nmap](https://github.com/nmap/nmap) · [SQLMap](https://github.com/sqlmapproject/sqlmap) · [Social-Engineer Toolkit](https://github.com/trustedsec/social-engineer-toolkit) · [Ngrok](https://ngrok.com/) · [TBomb](https://github.com/TheSpeedX/TBomb) · [Seeker](https://github.com/thewhiteh4t/seeker) · [Zphisher](https://github.com/htr-tech/zphisher) (authorized use only)
+[Metasploit](https://github.com/rapid7/metasploit-framework) · [Nmap](https://github.com/nmap/nmap) · [SQLMap](https://github.com/sqlmapproject/sqlmap) · [Social-Engineer Toolkit](https://github.com/trustedsec/social-engineer-toolkit) · [Ngrok](https://ngrok.com/) · [Seeker](https://github.com/thewhiteh4t/seeker)
 
 **System & Root Tools:** [agnostic-apollo/sudo](https://github.com/agnostic-apollo/sudo) · [agnostic-apollo/tudo](https://github.com/agnostic-apollo/tudo) · [TSU](https://github.com/cswl/tsu)
 
@@ -2450,7 +2844,7 @@ A: Use command-line tools instead, or try a minimal window manager like openbox 
 
 ---
 
-**Last Updated:** January 29, 2026  
+**Last Updated:** June 2026  
 **Termux Stable Version:** 0.118.3 (May 2025)  
 **Termux Beta Version:** 0.119.0-beta.3 (May-June 2025)  
 **Bootstrap:** 2026.01.11-r1 and newer  
