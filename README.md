@@ -114,7 +114,7 @@
   - [SSH Server Setup](#ssh-server-setup)
   - [Code Compilation](#code-compilation)
   - [Database Setup](#database-setup)
-  - [🆕 tmux — Keep Sessions Alive](`#tmux--keep-sessions-alive`)
+  - [🆕 tmux — Keep Sessions Alive](#tmux--keep-sessions-alive)
 
 ### 🖥️ Environment & GUI Setup
 - [11. Termux:Boot Setup](#11-termuxboot-setup)
@@ -963,10 +963,22 @@ adb pair localhost:PORT CODE
 adb connect localhost:CONNECT_PORT
 # You should see: connected to localhost:PORT
 
-# Apply the fix
-adb shell "/system/bin/device_config set_sync_disabled_for_tests persistent; \
-  /system/bin/device_config put activity_manager max_phantom_processes 2147483647"
+# Apply the main fix (increase phantom process limit)
+adb shell "/system/bin/device_config put activity_manager max_phantom_processes 2147483647"
 ```
+
+> **⚠️ WARNING — Advanced debugging option (invasive system-level change):**
+>
+> The following command disables system config sync across your device. This is useful for debugging but affects global Android behavior. Only use if you understand the implications:
+> ```bash
+> # Disable config sync (prevents other system components from overriding the phantom process limit)
+> adb shell "/system/bin/device_config set_sync_disabled_for_tests persistent"
+> ```
+>
+> **To revert sync-disabling later:**
+> ```bash
+> adb shell "/system/bin/device_config set_sync_disabled_for_tests none"
+> ```
 
 **Step 4 — Verify it worked:**
 ```bash
@@ -1265,7 +1277,8 @@ Combined with Termux:Boot (see §11), tmux can start a persistent session every 
 cat > ~/.termux/boot/start-tmux << 'EOF'
 #!/data/data/com.termux/files/usr/bin/sh
 termux-wake-lock
-tmux new-session -d -s main
+# Attach to existing session or create new one
+tmux attach -t main || tmux new-session -d -s main
 EOF
 
 chmod +x ~/.termux/boot/start-tmux
@@ -1500,7 +1513,8 @@ mkdir -p $PREFIX/var/service/myserver
 cat > $PREFIX/var/service/myserver/run << 'EOF'
 #!/data/data/com.termux/files/usr/bin/sh
 # Start your server here — runit will restart this if it exits
-exec python -m http.server 8080
+# Bind to localhost only for local testing
+exec python -m http.server 8080 --bind 127.0.0.1
 EOF
 
 # 3. Make it executable
@@ -1514,6 +1528,8 @@ sv status myserver
 ```
 
 > **Important:** Use `exec` (not just the command) in your run script. This makes runit properly track the process so it can restart it cleanly.
+>
+> **Note:** This example binds to localhost (127.0.0.1) only, making it accessible only from your device. This is appropriate for local testing and development.
 
 ---
 
@@ -2000,6 +2016,18 @@ Both halves matter: `cat /dev/null > ~/.bash_history` empties the file on disk, 
 cat > hnuke.sh << 'EOF'
 #!/data/data/com.termux/files/usr/bin/bash
 
+# Safety check: only run when executed directly (not sourced)
+if [[ "${BASH_SOURCE[0]}" != "${0}" ]]; then
+  echo "ERROR: This script must be executed, not sourced." >&2
+  return 1
+fi
+
+# Safety check: verify we're in an interactive shell
+if [[ ! -t 0 ]] || [[ -z "$PS1" && -z "$PROMPT" ]]; then
+  echo "ERROR: This script must run from an interactive shell." >&2
+  exit 1
+fi
+
 # Wipe history file
 cat /dev/null > ~/.bash_history
 
@@ -2011,7 +2039,9 @@ EOF
 chmod +x hnuke.sh
 ```
 
-Run it (`./hnuke.sh`) when you want the session to end with a guaranteed-clean history — `kill -9` terminates the parent shell before it gets a chance to flush its in-memory history back to `~/.bash_history`. Keeping a copy in `~/storage/shared/download/` makes it easy to re-fetch if you ever wipe `$HOME`.
+Run it (`./hnuke.sh`) when you want the session to end with a guaranteed-clean history — `kill -9` terminates the parent shell before it gets a chance to flush its in-memory history back to `~/.bash_history`.
+
+> **⚠️ Storage security note:** Keeping a copy in `~/storage/shared/download/` makes it easy to re-fetch if you ever wipe `$HOME`, but be aware that any app with storage access can modify files in that shared directory. Only store scripts there if you understand this exposure risk.
 
 ---
 
