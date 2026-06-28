@@ -114,7 +114,7 @@
   - [SSH Server Setup](#ssh-server-setup)
   - [Code Compilation](#code-compilation)
   - [Database Setup](#database-setup)
-  - [🆕 tmux — Session Management](#tmux--keep-sessions-alive)
+  - [🆕 tmux — Keep Sessions Alive](`#tmux--keep-sessions-alive`)
 
 ### 🖥️ Environment & GUI Setup
 - [11. Termux:Boot Setup](#11-termuxboot-setup)
