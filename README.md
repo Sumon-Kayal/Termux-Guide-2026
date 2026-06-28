@@ -934,63 +934,17 @@ Android 12 and newer silently kills background processes started by Termux after
 - `termux-wake-lock` doesn't help (it only prevents CPU sleep, not this)
 
 **The fix — do this once and it survives reboots:**
+**The fix — do this once and it survives reboots:**
 
 You don't need a PC. Android 11+ lets you use ADB wirelessly from Termux itself.
+
+> **⚠️ Warning:** This uses a debug command (`set_sync_disabled_for_tests`) that disables Android's configuration sync. If you have issues after a system update or want to restore normal behavior, run:
+> `adb shell "/system/bin/device_config set_sync_disabled_for_tests none"`
 
 **Step 1 — Enable Developer Options on your phone:**
 1. Open **Settings** → **About Phone**
 2. Tap **Build Number** 7 times quickly
 3. You'll see "You are now a developer!" — that's the confirmation
-
-**Step 2 — Enable Wireless Debugging:**
-1. Go to **Settings** → **Developer Options** (scroll down to find it)
-2. Turn on **Wireless Debugging**
-3. Tap on **"Wireless Debugging"** text to open its submenu
-4. Tap **"Pair device with pairing code"**
-5. You'll see a **Pairing Port** number and a **6-digit code** — keep this screen open
-
-**Step 3 — Run the fix in Termux:**
-```bash
-# Install ADB tools
-pkg install android-tools
-
-# Pair with your own phone (replace PORT and CODE with what you see on screen)
-adb pair localhost:PORT CODE
-# Example: adb pair localhost:41234 123456
-# You should see: Successfully paired to localhost:PORT
-
-# Now connect (use the main port shown on the Wireless Debugging screen, NOT the pairing port)
-adb connect localhost:CONNECT_PORT
-# You should see: connected to localhost:PORT
-
-# Apply the main fix (increase phantom process limit)
-adb shell "/system/bin/device_config put activity_manager max_phantom_processes 2147483647"
-```
-
-> **⚠️ WARNING — Advanced debugging option (invasive system-level change):**
->
-> The following command disables system config sync across your device. This is useful for debugging but affects global Android behavior. Only use if you understand the implications:
-> ```bash
-> # Disable config sync (prevents other system components from overriding the phantom process limit)
-> adb shell "/system/bin/device_config set_sync_disabled_for_tests persistent"
-> ```
->
-> **To revert sync-disabling later:**
-> ```bash
-> adb shell "/system/bin/device_config set_sync_disabled_for_tests none"
-> ```
-
-**Step 4 — Verify it worked:**
-```bash
-adb shell "/system/bin/device_config get activity_manager max_phantom_processes"
-# Should print: 2147483647
-```
-
-> **Note:** You may need to re-apply this after a major Android system update. If "Wireless Debugging" doesn't appear in Developer Options, search for it in Settings — some phone makers move it.
-
----
-
-
 ## 9. Common Use Cases
 
 ### Web Development
