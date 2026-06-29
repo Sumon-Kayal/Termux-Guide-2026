@@ -104,7 +104,7 @@
 
 ### ⚡ Performance & Optimization
 - [8. Performance Optimization](#8-performance-optimization)
-  - [Swap Files](#create-swap-file-for-low-ram-devices) · [Wake Lock](#keep-termux-running-in-the-background-wake-lock) · [🆕 Android 12+ Phantom Process Fix](#-android-12-phantom-process-killing-fix)
+  - [Swap Files](#create-swap-file-for-low-ram-devices) · [Wake Lock](#keep-termux-running-in-the-background-wake-lock) · [🆕 Android 12+ Phantom Process Fix](#android-12-phantom-process-killing-fix)
 
 ### 💻 Development & Use Cases
 - [9. Common Use Cases](#9-common-use-cases)
@@ -153,9 +153,9 @@
 - [Frequently Asked Questions (FAQ)](#frequently-asked-questions-faq)
 
 ### 📋 About This Guide
-- [Notes](#-notes)
-- [Credits & Contributing](#-credits--contributing)
-- [License](#-license)
+- [Notes](#notes)
+- [Credits & Contributing](#credits--contributing)
+- [License](#license)
 
 ---
 
@@ -1699,8 +1699,8 @@ apt-get install -y \
   apt-utils cmake make libreadline-dev sudo 7zip \
   mpv apt parted bash ca-certificates command-not-found \
   coreutils curl debianutils dpkg gpgv less nano \
-  patch zstd sox vlc git iproute2 bash-completion \
-  wget perl neofetch pkg-config python3 synaptic
+  patch zstd sox git iproute2 bash-completion \
+  wget perl neofetch pkg-config python3
 
 # Cleanup
 apt upgrade -y
@@ -1717,6 +1717,9 @@ sudo apt install cinnamon-desktop-environment -y
 
 # Install multimedia codecs
 sudo apt install libavcodec-extra ubuntu-restricted-extras -y
+
+# Install GUI-only applications
+sudo apt install vlc synaptic -y
 
 # Alternative: XFCE (Lighter)
 # sudo apt install xfce4 xfce4-goodies -y
@@ -2312,6 +2315,11 @@ These provide **legal** ways to practice security skills with **permission** and
 ## 17. Backup & Restore
 
 ### Create Backup Directory
+
+```bash
+# Create directory for backups in shared storage
+mkdir -p ~/storage/shared/termux-backup
+```
 
 ### Create Full Backup
 ```bash
