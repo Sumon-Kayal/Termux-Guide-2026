@@ -2591,7 +2591,7 @@ Everything below was scattered across six separate, heavily-overlapping "resourc
 ### Popular Tools by Category
 
 **Security & Penetration Testing** *(industry-standard tools — see [Security Tools](#16-security-tools-use-responsibly) for legal/ethical context before using any of these)*:
-[Metasploit](https://github.com/rapid7/metasploit-framework) · [Nmap](https://github.com/nmap/nmap) · [SQLMap](https://github.com/sqlmapproject/sqlmap) · [Social-Engineer Toolkit](https://github.com/trustedsec/social-engineer-toolkit) · [Ngrok](https://ngrok.com/) · [Seeker](https://github.com/thewhiteh4t/seeker)
+[Metasploit](https://github.com/rapid7/metasploit-framework) · [Nmap](https://github.com/nmap/nmap) · [SQLMap](https://github.com/sqlmapproject/sqlmap) · [Social-Engineer Toolkit](https://github.com/trustedsec/social-engineer-toolkit) · [Ngrok](https://ngrok.com/) · [TBomb](https://github.com/TheSpeedX/TBomb) · [Seeker](https://github.com/thewhiteh4t/seeker) · [Zphisher](https://github.com/htr-tech/zphisher) (authorized use only)
 
 **System & Root Tools:** [agnostic-apollo/sudo](https://github.com/agnostic-apollo/sudo) · [agnostic-apollo/tudo](https://github.com/agnostic-apollo/tudo) · [TSU](https://github.com/cswl/tsu)
 
