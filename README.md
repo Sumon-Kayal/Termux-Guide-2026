@@ -154,7 +154,7 @@
 
 ### 📋 About This Guide
 - [Notes](#notes)
-- [Credits & Contributing](#credits--contributing)
+- [Credits & Contributing](#credits-contributing)
 - [License](#license)
 
 ---
