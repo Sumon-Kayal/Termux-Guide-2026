@@ -10,7 +10,7 @@
 
 <div align="center">
 
-[![Termux](https://img.shields.io/badge/Termux-0.118.3%20stable%20%2F%200.119.0--beta.3-000000?style=for-the-badge&logo=android&logoColor=white)](https://termux.dev)
+[![Termux](https://img.shields.io/badge/Termux-0.118.3%20stable%20%2F%200.119.0-beta.3-000000?style=for-the-badge&logo=android&logoColor=white)](https://termux.dev)
 [![Android](https://img.shields.io/badge/Android-7.0+-3DDC84?style=for-the-badge&logo=android&logoColor=white)](https://www.android.com)
 [![License](https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg?style=for-the-badge)](LICENSE.md)
 [![Last Updated](https://img.shields.io/badge/Updated-Jun_2026-green?style=for-the-badge)](.)
@@ -432,6 +432,12 @@ pkg install -y \
 - **golang** — Go toolchain
 - **openssl-tool** — CLI for certs, hashing, and encryption (separate from the `openssl` library package)
 - **gitea / forgejo** — lightweight self-hosted Git servers (Forgejo is the community-driven Gitea fork)
+
+> **Security Warning:**
+> - **Bind services to 127.0.0.1** unless you intentionally need external access. Services like nginx, caddy, and gitea default to listening on all interfaces, which can expose them to your local network.
+> - **Use strong authentication** for Gitea/Forgejo admin accounts. These services are designed for production use and should never have weak or default credentials.
+> - **Cloudflare Tunnel exposes your device to the internet.** Only use cloudflared if you understand that it creates a public tunnel through Cloudflare's network to your local service.
+> - **Note:** Forgejo may not be available in default Termux repos on all architectures. If `pkg install forgejo` fails, you'll need to build it from source or use Gitea instead.
 
 ---
 
@@ -933,7 +939,6 @@ Android 12 and newer silently kills background processes started by Termux after
 - Long scripts die partway through for no reason
 - `termux-wake-lock` doesn't help (it only prevents CPU sleep, not this)
 
-**The fix — do this once and it survives reboots:**
 **The fix — do this once and it survives reboots:**
 
 You don't need a PC. Android 11+ lets you use ADB wirelessly from Termux itself.
@@ -2324,7 +2329,7 @@ mkdir -p ~/storage/shared/termux-backup
 ### Create Full Backup
 ```bash
 # Backup both home and usr directories
-tar -zcf ~/storage/shared/termux-backup/termux-backup-$(date +%Y%m%d).tar.gz \
+tar -zcf ~/storage/shared/termux-backup/termux-backup-$(date +%Y%m%d_%H%M%S).tar.gz \
   -C /data/data/com.termux/files ./home ./usr
 ```
 
@@ -2364,25 +2369,25 @@ cat > ~/backup-all.sh << 'EOF'
 DATE=$(date +%Y%m%d_%H%M%S)
 BACKUP_DIR=~/storage/shared/termux-backup
 
-mkdir -p $BACKUP_DIR
+mkdir -p "$BACKUP_DIR"
 
 echo "Creating full system backup..."
-tar -zcf $BACKUP_DIR/termux-full-$DATE.tar.gz \
+tar -zcf "$BACKUP_DIR/termux-full-$DATE.tar.gz" \
   -C /data/data/com.termux/files ./home ./usr
 
 echo "Backing up configuration files..."
-mkdir -p $BACKUP_DIR/config-$DATE
-cp ~/.termux/*.properties $BACKUP_DIR/config-$DATE/ 2>/dev/null
-cp ~/.termux/*.ttf $BACKUP_DIR/config-$DATE/ 2>/dev/null
-cp ~/.bashrc $BACKUP_DIR/config-$DATE/
-cp ~/.bash_profile $BACKUP_DIR/config-$DATE/ 2>/dev/null
+mkdir -p "$BACKUP_DIR/config-$DATE"
+[ -d ~/.termux ] && cp ~/.termux/*.properties "$BACKUP_DIR/config-$DATE/" 2>/dev/null
+[ -d ~/.termux ] && cp ~/.termux/*.ttf "$BACKUP_DIR/config-$DATE/" 2>/dev/null
+[ -f ~/.bashrc ] && cp ~/.bashrc "$BACKUP_DIR/config-$DATE/"
+[ -f ~/.bash_profile ] && cp ~/.bash_profile "$BACKUP_DIR/config-$DATE/" 2>/dev/null
 
 echo "Backing up boot scripts and shortcuts..."
-tar -czf $BACKUP_DIR/scripts-$DATE.tar.gz \
+tar -czf "$BACKUP_DIR/scripts-$DATE.tar.gz" \
   ~/.termux/boot/ ~/.shortcuts/ 2>/dev/null
 
 echo "Backup completed: $BACKUP_DIR"
-ls -lh $BACKUP_DIR/*$DATE*
+ls -lh "$BACKUP_DIR"/*"$DATE"*
 EOF
 
 chmod +x ~/backup-all.sh
