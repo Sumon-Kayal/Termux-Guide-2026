@@ -104,7 +104,7 @@
 
 ### ⚡ Performance & Optimization
 - [8. Performance Optimization](#8-performance-optimization)
-  - [Swap Files](#create-swap-file-for-low-ram-devices) · [Wake Lock](#keep-termux-running-in-the-background-wake-lock) · [🆕 Android 12+ Phantom Process Fix](#android-12-phantom-process-killing-fix)
+  - [Swap Files](#create-swap-file-for-low-ram-devices) · [Wake Lock](#keep-termux-running-in-the-background-wake-lock) · [🆕 Android 12+ Phantom Process Fix](#-android-12-phantom-process-killing-fix)
 
 ### 💻 Development & Use Cases
 - [9. Common Use Cases](#9-common-use-cases)
@@ -153,9 +153,9 @@
 - [Frequently Asked Questions (FAQ)](#frequently-asked-questions-faq)
 
 ### 📋 About This Guide
-- [Notes](#notes)
-- [Credits & Contributing](#credits-contributing)
-- [License](#license)
+- [Notes](#-notes)
+- [Credits & Contributing](#-credits--contributing)
+- [License](#-license)
 
 ---
 
@@ -2386,7 +2386,7 @@ echo "Backing up boot scripts and shortcuts..."
 scripts=()
 [ -d ~/.termux/boot ] && scripts+=(~/.termux/boot)
 [ -d ~/.shortcuts ] && scripts+=(~/.shortcuts)
-if ((${`#scripts`[@]})); then
+if ((${#scripts[@]})); then
   tar -czf "$BACKUP_DIR/scripts-$DATE.tar.gz" "${scripts[@]}"
 fi
 
