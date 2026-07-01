@@ -153,9 +153,9 @@
 - [Frequently Asked Questions (FAQ)](#frequently-asked-questions-faq)
 
 ### 📋 About This Guide
-- [Notes](#-notes)
+- [Notes](#notes)
 - [Credits & Contributing](#-credits--contributing)
-- [License](#-license)
+- [License](#license)
 
 ---
 
