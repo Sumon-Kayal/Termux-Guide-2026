@@ -2383,8 +2383,12 @@ mkdir -p "$BACKUP_DIR/config-$DATE"
 [ -f ~/.bash_profile ] && cp ~/.bash_profile "$BACKUP_DIR/config-$DATE/" 2>/dev/null
 
 echo "Backing up boot scripts and shortcuts..."
-tar -czf "$BACKUP_DIR/scripts-$DATE.tar.gz" \
-  ~/.termux/boot/ ~/.shortcuts/ 2>/dev/null
+scripts=()
+[ -d ~/.termux/boot ] && scripts+=(~/.termux/boot)
+[ -d ~/.shortcuts ] && scripts+=(~/.shortcuts)
+if ((${`#scripts`[@]})); then
+  tar -czf "$BACKUP_DIR/scripts-$DATE.tar.gz" "${scripts[@]}"
+fi
 
 echo "Backup completed: $BACKUP_DIR"
 ls -lh "$BACKUP_DIR"/*"$DATE"*
