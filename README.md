@@ -2365,6 +2365,7 @@ tar -czf ~/storage/shared/termux-backup/scripts-$(date +%Y%m%d).tar.gz \
 # Save this as ~/backup-all.sh
 cat > ~/backup-all.sh << 'EOF'
 #!/data/data/com.termux/files/usr/bin/bash
+set -e
 
 DATE=$(date +%Y%m%d_%H%M%S)
 BACKUP_DIR=~/storage/shared/termux-backup
