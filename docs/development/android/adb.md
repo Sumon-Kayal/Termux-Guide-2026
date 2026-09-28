@@ -6,7 +6,7 @@
 Android 12 and newer silently kills background processes started by Termux after a while. This means your running servers, Python scripts, and compilation jobs can die without any error message. This is one of the most common reasons things "randomly stop working" in Termux on modern phones.
 
 **How do you know you're affected?**
-- You're on Android 12, 12L, 13, 14, 15 or 16
+- You're on Android 12 or newer
 - The terminal shows `[Process completed (signal 9) - press Enter]`
 - Running servers (sshd, gitea, nginx) stop on their own
 - Long scripts die partway through for no reason
@@ -30,7 +30,10 @@ Keep Developer Options enabled: turning them off re-enables phantom process kill
 You don't need a PC. Android 11+ lets you use ADB wirelessly from Termux itself.
 
 > **⚠️ Warning:** This uses a debug command (`set_sync_disabled_for_tests`) that disables Android's configuration sync. If you have issues after a system update or want to restore normal behavior, run:
-> `adb shell "/system/bin/device_config set_sync_disabled_for_tests none"`
+> ```bash
+> adb shell "/system/bin/device_config delete activity_manager max_phantom_processes"
+> adb shell "/system/bin/device_config set_sync_disabled_for_tests none"
+> ```
 
 **Step 1 — Enable Developer Options on your phone:**
 1. Open **Settings** → **About Phone**
@@ -44,12 +47,15 @@ pkg install android-tools
 In Developer Options, enable **Wireless debugging**. Use split-screen so Termux and the Wireless debugging screen are visible together.
 
 **Step 3 — Pair and connect (the pairing port differs from the connection port):**
+
+Replace `DEVICE_IP` with the target device’s IP address shown in Wireless debugging (use the Wear OS device’s IP when connecting to a watch).
+
 ```bash
 # Pair: use the IP:port and code from "Pair device with pairing code"
-adb pair localhost:PAIR_PORT PAIRING_CODE
+adb pair DEVICE_IP:PAIR_PORT PAIRING_CODE
 
 # Connect: use the IP:port shown on the main Wireless debugging screen
-adb connect localhost:CONNECT_PORT
+adb connect DEVICE_IP:CONNECT_PORT
 ```
 
 **Step 4 — Disable phantom process monitoring:**

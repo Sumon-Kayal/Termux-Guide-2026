@@ -22,7 +22,7 @@ termux-setup-storage
 pkg update && pkg upgrade -y
 
 # Install essential tools
-pkg install -y python git neovim ffmpeg proot-distro nodejs wget curl
+pkg install -y python python-pip git neovim ffmpeg proot-distro nodejs wget curl
 
 # Install yt-dlp
 pip install -U yt-dlp
@@ -32,7 +32,7 @@ pip install -U yt-dlp
 
 **One-liner for power users:**
 ```bash
-termux-setup-storage && pkg update && pkg upgrade -y && pkg install -y python git neovim ffmpeg mpv yt-dlp proot-distro nodejs openjdk-17 wget curl gh nmap termux-api && pip install -U yt-dlp && pkg autoclean
+termux-setup-storage && pkg update && pkg upgrade -y && pkg install -y python python-pip git neovim ffmpeg mpv proot-distro nodejs openjdk-17 wget curl gh nmap termux-api && pip install -U yt-dlp && pkg autoclean
 ```
 
 ---

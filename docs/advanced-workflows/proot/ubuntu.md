@@ -9,7 +9,7 @@ proot-distro install ubuntu
 
 **Installation location:**
 ```
-/data/data/com.termux/files/usr/var/lib/proot-distro/installed-rootfs/ubuntu/
+$PREFIX/var/lib/proot-distro/containers/ubuntu/rootfs/
 ```
 
 ## Login to Ubuntu

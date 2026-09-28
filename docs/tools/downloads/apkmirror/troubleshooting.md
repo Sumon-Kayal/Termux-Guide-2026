@@ -2,7 +2,7 @@
 
 ## HTTP 403 Forbidden
 
-Try the exact User-Agent and Referer shown above, and make sure the complete APKMirror URL is enclosed in single quotes.
+Try the exact User-Agent and Referer in the [wget2 download command](wget2.md#download-with-wget2), and make sure the complete APKMirror URL is enclosed in single quotes.
 
 ## The command starts a background job unexpectedly
 

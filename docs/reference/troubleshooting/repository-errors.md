@@ -5,8 +5,8 @@
 # Reset repository mirrors
 termux-change-repo
 
-# Force update
-pkg update --force
+# Force a mirror availability check, then update
+pkg --check-mirror update
 
 # Fix broken packages
 pkg upgrade -y

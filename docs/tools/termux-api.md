@@ -3,7 +3,7 @@
 ## ⚠️ IMPORTANT: Dual Installation Required
 
 **You need BOTH components:**
-1. **Termux:API app** from F-Droid: https://f-droid.org/packages/com.termux.api/
+1. **Termux:API app** from the same source as your Termux app: [F-Droid](https://f-droid.org/packages/com.termux.api/) for F-Droid Termux, or [GitHub](https://github.com/termux/termux-api/releases) for GitHub Termux. Do not mix sources.
 2. **termux-api package**: `pkg install termux-api`
 
 Without both installed, API commands will fail silently or show "command not found"!
@@ -93,8 +93,8 @@ termux-clipboard-get
 # Vibrate for 1 second
 termux-vibrate -d 1000
 
-# Vibrate pattern (on,off,on,off in ms)
-termux-vibrate -d 500,200,500
+# Vibrate for half a second
+termux-vibrate -d 500
 ```
 
 ## Toast Messages (Working in 2026)
@@ -150,7 +150,7 @@ termux-contact-list | grep "John"
 termux-call-log
 
 # Get last 5 calls
-termux-call-log -l 5 -o all
+termux-call-log -l 5
 ```
 
 ## Additional Working Features (2026)

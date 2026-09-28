@@ -26,7 +26,7 @@ node server.js
 **Python Web Server:**
 ```bash
 # Simple HTTP server (Python 3)
-python -m http.server 8000
+python -m http.server 8000 --bind 127.0.0.1
 
 # Access at: http://localhost:8000
 ```

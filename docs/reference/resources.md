@@ -23,11 +23,11 @@
 | Termux X11 | https://github.com/termux/termux-x11 | X11 server for GUI |
 | **Utilities & Tools** | | |
 | Termux Shared | https://github.com/termux/termux-shared | Shared resources |
-| Termux apt | https://github.com/termux/termux-apt | Package manager |
+| Termux apt | https://github.com/termux/termux-apt-repo | Package manager |
 | Termux Services (runit supervisor) | https://github.com/termux/termux-services | Background service management |
 | **Community & Documentation** | | |
 | Termux Bootstrap | https://github.com/termux/termux-bootstrap | Bootstrap system files |
-| Termux Package Management | https://github.com/termux/apt | APT package manager |
+| Termux Package Management | https://github.com/termux/termux-packages/wiki/Package-Management | APT package manager |
 
 ## Download Termux & Add-ons
 

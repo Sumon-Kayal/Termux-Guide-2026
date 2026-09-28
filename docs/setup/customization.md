@@ -2,7 +2,7 @@
 
 **What is this file?**
 
-`~/.termux/termux.properties` is Termux's personal config file. It controls how the terminal looks and behaves — things like font size, what the extra keys row shows, whether the volume button acts as a shortcut key, and more.
+`~/.termux/termux.properties` is Termux's personal config file. It controls how the terminal looks and behaves — things like cursor style, what the extra keys row shows, whether the volume button acts as a shortcut key, and more.
 
 Most users never touch it, but even a few small changes make Termux much more comfortable to use daily.
 
@@ -28,10 +28,9 @@ termux-reload-settings
 
 ## Font & Display
 
-```properties
-# Font size (default is 12, range is about 6–36)
-terminal-font-size = 14
+Change font size in the terminal with a two-finger pinch gesture, or use **Ctrl+Alt+Plus/Minus**. Font size is not set through `termux.properties`.
 
+```properties
 # Scrollback lines — how far you can scroll up (default 2000)
 terminal-transcript-rows = 5000
 
@@ -56,15 +55,12 @@ fullscreen = true
 back-key = escape
 
 # What the volume keys do:
-# "volume"       = normal volume control (default)
-# "virtual-keys" = shows on-screen keyboard shortcuts
-volume-keys = virtual-keys
+# "volume"  = normal volume control
+# "virtual" = special-key behavior (default: Volume Down as Ctrl, Volume Up for shortcuts)
+volume-keys = virtual
 
 # Use this if your keyboard input feels laggy or doubled
 enforce-char-based-input = true
-
-# Hide the soft keyboard when you scroll (reduces accidental input)
-hide-soft-keyboard-on-scroll = true
 ```
 
 ---
@@ -74,7 +70,7 @@ hide-soft-keyboard-on-scroll = true
 The extra keys row is the strip of special keys above the keyboard (Ctrl, Alt, Tab, arrows, etc.). This is the most useful thing to customise.
 
 ```properties
-# Format: rows separated by \n, keys inside [] separated by |
+# Format: a two-dimensional array; commas separate rows and keys within each row
 # Each key can be a label string or a special key name
 
 # Simple row (one row of common keys):
@@ -84,7 +80,7 @@ extra-keys = [['ESC','/','-','HOME','UP','END','PGUP'],['TAB','CTRL','ALT','LEFT
 extra-keys = [['ESC','TAB','CTRL','ALT','DEL','BKSP'],['UP','DOWN','LEFT','RIGHT','HOME','END']]
 
 # Row with custom labels and special characters:
-extra-keys = [['ESC','|','/','\\','~','[',']'],['CTRL','ALT','TAB','LEFT','DOWN','UP','RIGHT']]
+extra-keys = [['ESC','|','/','BACKSLASH','~','[',']'],['CTRL','ALT','TAB','LEFT','DOWN','UP','RIGHT']]
 ```
 
 **Available key names:**

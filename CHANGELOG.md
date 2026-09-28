@@ -8,7 +8,7 @@
 
 ## 2026-09-29 (APKMirror)
 
-- Added APKMirror download guide with wget2 (`docs/downloads/apkmirror/`) and helper script `scripts/apkmirror/wget2-download.sh`.
+- Added APKMirror download guide with wget2 (`docs/tools/downloads/apkmirror/`) and helper script `scripts/apkmirror/wget2-download.sh`.
 
 ## 2026-09-29 (web update)
 

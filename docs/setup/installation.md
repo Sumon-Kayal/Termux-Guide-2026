@@ -121,6 +121,6 @@ It includes `termux-gui-dialog`, `termux-gui-files`, `termux-gui-view`, `termux-
 
 ### ⚠️ DO NOT Use Play Store
 
-The Play Store version of Termux is **outdated and abandoned**. It will not receive updates and may have compatibility issues.
+The Play Store version of Termux is **restricted and not recommended**. It is maintained as a separate experimental branch and may have compatibility issues. Use F-Droid or GitHub for stable releases.
 
 ---

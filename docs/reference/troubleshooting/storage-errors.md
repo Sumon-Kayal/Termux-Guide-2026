@@ -6,5 +6,6 @@
 termux-setup-storage
 
 # Check permissions in Android Settings:
-# Settings → Apps → Termux → Permissions → Storage
+# Below Android 11: Settings → Apps → Termux → Permissions → Storage
+# Android 11+: Settings → Apps → Termux → Permissions → Files and media → Allowed management of all files
 ```

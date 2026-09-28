@@ -166,12 +166,16 @@ chmod +x ~/.termux/boot/start-syncthing
 ```bash
 cat > ~/.termux/boot/backup << 'EOF'
 #!/data/data/com.termux/files/usr/bin/sh
+termux-wake-lock
+trap 'termux-wake-unlock' EXIT
 sleep 60  # Wait for system to fully boot
 tar -czf ~/storage/downloads/auto-backup-$(date +%Y%m%d).tar.gz ~/important-files/
 EOF
 
 chmod +x ~/.termux/boot/backup
 ```
+
+The backup acquires a wake lock before waiting and running `tar`, so it can continue while the device sleeps. The exit trap releases it when the job finishes, including if the backup fails.
 
 **Test boot scripts:**
 ```bash
@@ -212,6 +216,9 @@ ls $PREFIX/etc/sv/
 ### Step 3 — Enable a service
 
 ```bash
+# Keep the CPU awake while the service runs
+termux-wake-lock
+
 # Enable sshd so it starts automatically and restarts if it crashes
 sv-enable sshd
 
@@ -225,10 +232,12 @@ sv-enable sshd
 sv status sshd
 # Output example: run: sshd: (pid 1234) 42s; run: log: (pid 1235) 42s
 
-# Stop a service
+# Stop a service and release the wake lock when no other jobs need it
 sv down sshd
+termux-wake-unlock
 
-# Start it again
+# Start it again with a wake lock
+termux-wake-lock
 sv up sshd
 
 # Restart it
@@ -236,7 +245,10 @@ sv restart sshd
 
 # Disable permanently (won't start on boot anymore)
 sv-disable sshd
+termux-wake-unlock
 ```
+
+Keep the wake lock while long-running services need to execute during device sleep, and release it after stopping them. The wake lock is shared by Termux jobs: only call `termux-wake-unlock` when no other service or backup needs it. If boot services run alongside the backup example, let the service lifecycle manage the lock and omit the backup’s unlock trap. Reacquire the lock when starting services after a reboot.
 
 ### Step 5 — Create your own supervised service
 
@@ -257,7 +269,8 @@ EOF
 # 3. Make it executable
 chmod +x $PREFIX/var/service/myserver/run
 
-# 4. Enable it
+# 4. Acquire a wake lock and enable it
+termux-wake-lock
 sv-enable myserver
 
 # 5. Check it's running

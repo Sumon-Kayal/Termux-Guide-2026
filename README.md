@@ -60,7 +60,6 @@
 - [FAQ](docs/reference/faq.md) · [Resources](docs/reference/resources.md)
 
 ### Translations & Project
-- [हिन्दी (hi_IN)](translations/hi_IN/README.md)
 - [Contributing](CONTRIBUTING.md) · [Changelog](CHANGELOG.md) · [License](LICENSE)
 
 Repository layout: `docs/` (the handbook), `scripts/` (runnable helpers), `examples/` (samples), `translations/`, `assets/`.

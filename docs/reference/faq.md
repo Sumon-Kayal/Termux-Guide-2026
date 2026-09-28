@@ -12,7 +12,7 @@ A: Yes, using VNC or Termux:X11. However, GUI apps can be slow on mobile devices
 A: Yes, Termux itself is completely legal. However, using certain tools (like hacking tools) without authorization is illegal.
 
 **Q: Why should I avoid the Play Store version?**  
-A: The Play Store version is outdated and no longer maintained. Always use F-Droid or GitHub releases.
+A: Use F-Droid or GitHub for stable releases. The Play Store build is a separate experimental branch with restrictions and missing functionality.
 
 **Q: How much storage does Termux need?**  
 A: Basic installation: ~50MB. With common packages: 200-500MB. Full desktop environment: 2-4GB+.
@@ -85,7 +85,7 @@ A: Use vim, neovim, nano, or install code-server for VS Code in your browser.
 A: The tools themselves are legal for educational and authorized testing. Using them maliciously is illegal.
 
 **Q: Can others access my Termux if I run an SSH server?**  
-A: Only if you expose it to the network. By default, SSH runs on localhost only. Always use strong passwords and SSH keys.
+A: SSH may be reachable on network interfaces unless you explicitly restrict it. For local-only access, configure `ListenAddress 127.0.0.1` (and optionally `ListenAddress ::1` for IPv6 loopback) in `$PREFIX/etc/ssh/sshd_config`, remove any non-loopback `ListenAddress` entries, and restart `sshd`. Always use strong passwords and SSH keys.
 
 **Q: How do I secure my Termux installation?**  
 A: See [Security Best Practices](../advanced-workflows/security/ssh-security.md) section.

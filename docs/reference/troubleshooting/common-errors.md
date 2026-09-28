@@ -11,12 +11,14 @@ exit
 ```
 
 ### Environment Is Badly Broken (Reset Without Reinstalling)
+**Warning:** `termux-reset` erases everything under `$PREFIX`, including installed packages, configuration files, and databases. It preserves your home directory and shared or external storage, including home shell startup files. Back up any needed data under `$PREFIX` and save your installed package list before proceeding — see [Backup & Restore](../../advanced-workflows/security/backups.md).
+
 ```bash
-# Restore Termux's default shell profile and environment files
-# without wiping your packages or home directory
+# Erase $PREFIX to reset the Termux environment
 termux-reset
 ```
-**Note:** `termux-reset` rewrites configuration files under `$PREFIX/etc` and your shell startup files back to defaults. Back up any customized dotfiles (`.bashrc`, `.vimrc`, etc.) first — see [Backup & Restore](../../advanced-workflows/security/backups.md).
+
+After the reset, fully close and reopen Termux to reinstall the bootstrap environment. Reinstall your packages, then restore the needed configuration files and databases from your backup. Home startup files may reference packages that must be reinstalled.
 
 ---
 

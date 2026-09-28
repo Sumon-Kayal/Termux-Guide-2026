@@ -2,6 +2,8 @@
 
 ## pip (Python Package Manager)
 
+Search for packages on the [PyPI website](https://pypi.org/).
+
 ```bash
 # Install Python package
 pip install package-name
@@ -20,9 +22,6 @@ pip list
 
 # Show package info
 pip show package-name
-
-# Search for packages
-pip search keyword  # (deprecated, use PyPI website)
 
 # Install from requirements file
 pip install -r requirements.txt
