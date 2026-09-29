@@ -1,14 +1,14 @@
 # Termux:API Usage
 
-## ⚠️ IMPORTANT: Dual Installation Required
+## F-Droid and GitHub builds: Dual Installation Required
 
-**You need BOTH components:**
+**For F-Droid and GitHub builds, you need BOTH components:**
 1. **Termux:API app** from the same source as your Termux app: [F-Droid](https://f-droid.org/packages/com.termux.api/) for F-Droid Termux, or [GitHub](https://github.com/termux/termux-api/releases) for GitHub Termux. Do not mix sources.
 2. **termux-api package**: `pkg install termux-api`
 
 Without both installed, API commands will fail silently or show "command not found"!
 
-## Verify Installation
+### Verify Installation (F-Droid and GitHub)
 ```bash
 # Check if package is installed
 pkg list-installed | grep termux-api
@@ -17,6 +17,20 @@ pkg list-installed | grep termux-api
 termux-battery-status
 # Should return JSON with battery info
 ```
+
+## Google Play build
+
+The Google Play build includes support for a subset of API commands in the main Termux app; no separate Termux:API app is required. See the [official Play build status and changelog](https://github.com/termux-play-store#current-status-for-users) for availability in your version.
+
+Supported commands include:
+
+- `termux-audio-info`, `termux-battery-status`, `termux-dialog`, `termux-keystore`, `termux-toast`
+- `termux-clipboard-*`, `termux-download`, `termux-saf-*`, `termux-share`, `termux-storage-get`, `termux-usb`
+- `termux-vibrate`, `termux-volume`, `termux-camera-info`, `termux-job-scheduler`
+- `termux-media-player`, `termux-microphone-record`, `termux-notification`, `termux-notification-channel`, `termux-notification-list`, `termux-notification-remove`
+- `termux-speech-to-text`, `termux-tts-engines`, `termux-tts-speak`
+
+Test built-in support with `termux-battery-status` or `termux-vibrate -d 500`. The examples below cover the wider F-Droid/GitHub API; Play users should use only commands supported by their build.
 
 ## Camera
 

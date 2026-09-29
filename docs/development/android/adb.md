@@ -31,6 +31,7 @@ You don't need a PC. Android 11+ lets you use ADB wirelessly from Termux itself.
 
 > **⚠️ Warning:** This uses a debug command (`set_sync_disabled_for_tests`) that disables Android's configuration sync. If you have issues after a system update or want to restore normal behavior, run:
 > ```bash
+> adb shell "settings put global settings_enable_monitor_phantom_procs true"
 > adb shell "/system/bin/device_config delete activity_manager max_phantom_processes"
 > adb shell "/system/bin/device_config set_sync_disabled_for_tests none"
 > ```

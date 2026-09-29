@@ -24,15 +24,15 @@ pkg update && pkg upgrade -y
 # Install essential tools
 pkg install -y python python-pip git neovim ffmpeg proot-distro nodejs wget curl
 
-# Install yt-dlp
-pip install -U yt-dlp
+# Install yt-dlp with the EJS scripts required for full YouTube support
+pip install -U "yt-dlp[default]"
 
 # Done! Start using Termux
 ```
 
 **One-liner for power users:**
 ```bash
-termux-setup-storage && pkg update && pkg upgrade -y && pkg install -y python python-pip git neovim ffmpeg mpv proot-distro nodejs openjdk-17 wget curl gh nmap termux-api && pip install -U yt-dlp && pkg autoclean
+termux-setup-storage && pkg update && pkg upgrade -y && pkg install -y python python-pip git neovim ffmpeg mpv proot-distro nodejs openjdk-17 wget curl gh nmap termux-api && pip install -U "yt-dlp[default]" && pkg autoclean
 ```
 
 ---

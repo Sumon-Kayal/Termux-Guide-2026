@@ -24,9 +24,13 @@ node server.js
 ```
 
 **Python Web Server:**
+
+Serve only a dedicated directory containing files safe for other apps to read; do not include sensitive files or symlinks to them. Binding to loopback (`127.0.0.1`) does not prevent other Android apps from accessing this unauthenticated server.
+
 ```bash
-# Simple HTTP server (Python 3)
-python -m http.server 8000 --bind 127.0.0.1
+# Put only files safe to share in this dedicated directory
+mkdir -p ~/public-http
+python -m http.server 8000 --bind 127.0.0.1 --directory ~/public-http
 
 # Access at: http://localhost:8000
 ```
