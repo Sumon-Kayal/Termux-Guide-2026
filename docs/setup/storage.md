@@ -39,13 +39,15 @@ cp myfile.txt ~/storage/downloads/
 # Move files
 mv myfile.txt ~/storage/documents/
 
-# Create directory in shared storage
-mkdir -p ~/storage/shared/MyProjects
+# Keep working copies in Termux home
+mkdir -p ~/projects/myproject
 
 # Archive and move to storage
 tar -czf project.tar.gz myproject/
 mv project.tar.gz ~/storage/downloads/
 ```
+
+Keep project working copies under `~/projects`; use shared storage to copy or export files when needed.
 
 ## File Sharing Between Termux and Android
 

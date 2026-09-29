@@ -56,15 +56,19 @@ termux-change-repo
 pkg update
 
 # Add additional repositories
-pkg install root-repo x11-repo tur-repo -y
-# ⚠️ Note: tur-repo can occasionally break compatibility
-# Only keep it enabled if you need specific packages from it
+pkg install root-repo x11-repo -y
 
 # Full system update
 pkg update && pkg upgrade -y
 
 # Initial cleanup
 apt clean && pkg clean && pkg autoclean
+```
+
+**Optional: Termux User Repository** — install only if you need specific packages from it; these user-maintained packages may have compatibility issues.
+
+```bash
+pkg install tur-repo -y
 ```
 
 **Repository Notes (January 2026):**

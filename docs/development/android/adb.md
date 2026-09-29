@@ -3,7 +3,7 @@
 ## 🆕 Android 12+ Phantom Process Killing Fix
 
 **What is this?**
-Android 12 and newer silently kills background processes started by Termux after a while. This means your running servers, Python scripts, and compilation jobs can die without any error message. This is one of the most common reasons things "randomly stop working" in Termux on modern phones.
+Android 12 and newer can terminate excess Termux child processes when the system-wide phantom-process limit is exceeded. This means your running servers, Python scripts, and compilation jobs can die without any error message. This is one of the most common reasons things "randomly stop working" in Termux on modern phones.
 
 **How do you know you're affected?**
 - You're on Android 12 or newer

@@ -65,13 +65,19 @@ sudo apt install vlc synaptic -y
 ## QEMU Support (Optional)
 ```bash
 apt-get install qemu-system-aarch64 -y
-pkg install qemu-utils -y
 ```
 
 ## Exit Ubuntu
 ```bash
 cat /dev/null > ~/.bash_history && history -c
+unset HISTFILE
 exit
+```
+
+Back in Termux, optionally install QEMU utilities:
+
+```bash
+pkg install qemu-utils -y
 ```
 
 ---

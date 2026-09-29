@@ -3,7 +3,7 @@
 ## F-Droid and GitHub builds: Dual Installation Required
 
 **For F-Droid and GitHub builds, you need BOTH components:**
-1. **Termux:API app** from the same source as your Termux app: [F-Droid](https://f-droid.org/packages/com.termux.api/) for F-Droid Termux, or [GitHub](https://github.com/termux/termux-api/releases) for GitHub Termux. Do not mix sources.
+1. **Termux:API app** from the same source as your Termux app: [F-Droid](https://f-droid.org/packages/com.termux.api/) for F-Droid Termux, or [GitHub](https://github.com/termux/termux-api/releases) for GitHub Termux. Termux and Termux:API must have matching signing keys; GitHub Termux cannot use the F-Droid companion app. See the [official installation requirements](https://github.com/termux/termux-app#installation).
 2. **termux-api package**: `pkg install termux-api`
 
 Without both installed, API commands will fail silently or show "command not found"!
@@ -121,20 +121,21 @@ termux-toast "Hello from Termux!"
 termux-toast -s "Quick message"
 
 # Long duration toast
-termux-toast -l "Longer message display"
+termux-toast "Longer message display"
 ```
 
 ## Volume Control
 
 ```bash
-# Get current volume
+# Inspect current and maximum values for each stream
 termux-volume
 
-# Set music volume to 50%
-termux-volume music 50
+# Set music volume to level 5 (absolute value, not a percentage)
+# Choose a value within the music stream's reported maximum
+termux-volume music 5
 
-# Set alarm volume to max
-termux-volume alarm 15
+# Set alarm volume to level 5, if within its reported maximum
+termux-volume alarm 5
 ```
 
 ## Flashlight
@@ -174,7 +175,7 @@ termux-call-log -l 5
 termux-brightness 100  # Max brightness
 
 # Microphone recording
-termux-microphone-record -f output.mp3
+termux-microphone-record -e aac -f output.m4a
 
 # TTS (Text-to-Speech)
 termux-tts-speak "Hello from Termux"

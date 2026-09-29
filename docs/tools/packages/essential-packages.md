@@ -41,11 +41,7 @@ apt clean && pkg clean && pkg autoclean && apt autoremove -y
   pkg install gdrive-downloader
   ```
 
-- **`termux-api`** - **CRITICAL:** You need BOTH:
-  1. Install Termux:API app from F-Droid: https://f-droid.org/packages/com.termux.api/
-  2. Install the package: `pkg install termux-api`
-  
-  Without the F-Droid app, termux-api commands won't work!
+- **`termux-api`** - Follow the [build-specific Termux:API setup](../termux-api.md) for companion-app requirements, matching signing-key sources, and Google Play’s built-in methods.
 
 - **`openjdk-17`** - Main supported Java version in Termux
   - `openjdk-21` exists but is less tested

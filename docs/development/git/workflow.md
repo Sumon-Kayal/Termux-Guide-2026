@@ -28,7 +28,7 @@ git add .
 git commit -m "Update message"
 
 # Push changes
-git push origin main
+git push -u origin HEAD
 
 # Pull latest changes
 git pull

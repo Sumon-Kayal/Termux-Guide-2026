@@ -40,7 +40,7 @@ A: Run `pkg update` first to refresh the package list.
 A: Restart Termux or run `source ~/.bashrc`
 
 **Q: Termux keeps getting killed in the background**  
-A: Disable battery optimization for Termux in Android Settings → Apps → Termux → Battery.
+A: Disable battery optimization for Termux in Android Settings → Apps → Termux → Battery. If child processes are killed by the phantom-process limit, also see the [Android 14+ phantom-process guidance](../development/android/adb.md#quick-fix-on-android-14-and-newer-no-adb).
 
 **Q: How do I fix broken packages?**  
 A: Run `dpkg --configure -a` and then `pkg upgrade -y`

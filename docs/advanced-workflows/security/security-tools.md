@@ -34,9 +34,9 @@ Many security communities now discourage publicly listing certain tools (especia
 
 ## Phishing-Simulation Frameworks
 
-**⚠️ MAXIMUM RISK CATEGORY - PHISHING AGAINST REAL PEOPLE IS A FEDERAL CRIME**
+**⚠️ MAXIMUM RISK CATEGORY - PHISHING MAY VIOLATE FEDERAL OR STATE LAW**
 
-Phishing-simulation tools (credential-harvesting page generators) exist in the wild and show up on most "Termux tools" lists. This guide intentionally does **not** include install/run instructions for them — deploying one against anyone without a signed, scoped authorization is illegal, and even "just testing" against a real login page crosses that line instantly.
+Phishing-simulation tools (credential-harvesting page generators) exist in the wild and show up on most "Termux tools" lists. This guide intentionally does **not** include install/run instructions for them — unauthorized use may violate federal or state law, depending on the conduct and jurisdiction. Consult the [U.S. Department of Justice’s official computer-crime guidance](https://www.justice.gov/criminal/criminal-ccips/ccips-documents-and-reports) and your state’s official legal resources. Obtain written authorization with a defined scope before any testing.
 
 If you have a genuine, written, red-team engagement that calls for this category of tool, your engagement documentation or employer's toolkit is the appropriate source — not a general setup guide.
 

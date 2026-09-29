@@ -12,14 +12,14 @@
 
 **Package Mirrors (2025-2026):**
 - Modern default mirrors: Cloudflare and Hetzner (more stable than older mirrors)
-- Bootstrap files: Now tagged as `bootstrap-2026.01.11-r1` and newer; newest seen at time of writing is `bootstrap-2026.08.30-r1+apt.android-7`
+- Bootstrap files: Now tagged as `bootstrap-2026.01.11-r1` and newer; newest seen as of September 29, 2026 is [`bootstrap-2026.09.27-r1+apt.android-7`](https://github.com/termux/termux-packages/releases/tag/bootstrap-2026.09.27-r1%2Bapt.android-7)
 - `termux-change-repo` still works but many users already on best mirrors by default
 - **Recommended mirror for India/Asia:** Cloudflare (usually fastest)
 
 **Package Availability Notes:**
 - `vlc` - Available but heavy; most users prefer `mpv` + `ffmpeg` combination
 - `gdrive-downloader` - May be from `tur-repo`; availability varies by mirror
-- `termux-api` - **IMPORTANT:** Install both the F-Droid app AND run `pkg install termux-api`
+- `termux-api` - F-Droid Termux requires the F-Droid Termux:API companion app and `pkg install termux-api`. Termux and Termux:API must come from matching signing-key sources: GitHub Termux requires the GitHub companion app and cannot use the F-Droid companion app. Google Play builds include some API methods without a separate companion app. Follow the [build-specific Termux:API setup](../tools/termux-api.md).
 - `openjdk-17` - Main supported Java version (openjdk-21 exists but less tested)
 - `tur-repo` - Can break compatibility; only enable when you need specific packages
 

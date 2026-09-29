@@ -4,51 +4,44 @@
 
 ## What is AVcleaner?
 
-AVcleaner is a utility for removing/obfuscating antivirus signatures from APK files. 
+[AVcleaner](https://github.com/RedQueen979/AVcleaner) is an interactive Termux cleanup script. Its [source](https://github.com/RedQueen979/AVcleaner/blob/main/AVcleaner.sh) offers to:
 
-**Use Cases:**
-- Testing AV detection capabilities (security research)
-- Legitimate app development testing
-- Bypassing false positives (rare cases)
+- Clear downloaded package caches with `apt-get clean`.
+- Delete files recursively under `/data/data/com.termux/files/home/tmp/`.
+- Delete all files matching `*.log` recursively under Termux home.
 
-**⚠️ Warning:**
-- This is a **controversial tool** with potential for misuse
-- Using it to distribute malware is **illegal**
-- Only use for **authorized security research** or **legitimate testing**
-- Most users will never need this tool
+**⚠️ Deletion risk:** The selected files are permanently deleted, including logs or temporary files you may still need. Review the script and back up important files before answering its prompts. It does not check whether files are in use.
 
 ## Installation (Optional)
 
 ```bash
-# Clone repository
+# Clone repository in your chosen working directory
 git clone https://github.com/RedQueen979/AVcleaner
-cd AVcleaner
+cd "AVcleaner"
 
 # Make executable
-chmod +x AVcleaner.sh
+chmod +x "AVcleaner.sh"
 
-# Create system-wide command (optional)
-ln -s ~/AVcleaner/AVcleaner.sh $PREFIX/bin/clean
-
-# Return to home
-cd ~
+# Create command using this clone's absolute path (optional)
+ln -s "$PWD/AVcleaner.sh" "$PREFIX/bin/clean"
 ```
 
 ## Usage
 
 ```bash
 clean  # if you created the symlink
-# or
-~/AVcleaner/AVcleaner.sh
+# Or, from the cloned repository directory:
+./AVcleaner.sh
 ```
+
+Keep the clone in place while using the symlink; moving or deleting it breaks the command.
 
 ## When NOT to Use
 
-❌ Don't use if you're just learning Termux  
-❌ Don't use for distributing any applications  
-❌ Don't use unless you understand APK structure and AV detection  
-❌ Don't use without legitimate security research purpose  
+- Don't run it unless you understand which files it deletes.
+- Don't select temporary-file or log cleanup while those files are needed by running jobs.
+- Don't run it without backups of files you want to keep.
 
-**Alternative:** If you're getting false positives on your legitimate app, contact the AV vendor directly rather than obfuscating signatures.
+For package-cache cleanup alone, use `pkg clean`.
 
 ---
