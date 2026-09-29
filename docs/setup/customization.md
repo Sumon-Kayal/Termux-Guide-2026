@@ -28,7 +28,7 @@ termux-reload-settings
 
 ## Font & Display
 
-Change font size in the terminal with a two-finger pinch gesture when using a touch keyboard, or use **Ctrl+Alt+Plus/Minus** with a hardware keyboard. Font size is not set through `termux.properties`.
+Change font size in the terminal with a two-finger pinch gesture, or use **Ctrl+Alt+Plus/Minus** with a hardware keyboard. Font size is not set through `termux.properties`.
 
 ```properties
 # Scrollback lines — how far you can scroll up (default 2000)
